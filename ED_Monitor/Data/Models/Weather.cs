@@ -1,12 +1,17 @@
-namespace ED_Monitor.Data.Models
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ED_Monitor.Data.Models;
+
+[Table("WheatherData")]
+[PrimaryKey(nameof(StationID))]
+public class WeatherData
 {
-    public class WeatherData
-    {
-        //public DateTime Date { get; set; }
-        public int measurementID { get; set; }
-        public float temperature { get; set; }
-        public float humidity { get; set; }
-        public float windSpeed { get; set; }
-        public float windDirection { get; set; }
-    }
+    public int StationID { get; set; }
+    public TimeOnly Time { get; set; }
+    public float Temperature { get; set; }
+    public float Humidity { get; set; }
+    public float Wind_speed { get; set; }
+    public float Wind_direction { get; set; }
 }
