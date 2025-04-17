@@ -11,7 +11,7 @@ public class ED_MonitorDbContext : DbContext
     { }
 
     // DBSet is a set of record of a specif type returned from the db
-     public DbSet ED_Monitor { get; set; }
+       //  public DbSet<Air_quality> Air_quality { get; set; }
 
 }
 
