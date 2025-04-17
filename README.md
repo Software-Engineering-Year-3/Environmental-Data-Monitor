@@ -1,5 +1,5 @@
 # Environmental-Data
 
-database:edmdb
-database name:ED_Monitor
+database:environmentmonitor
+user name:first_user
 passowrd:ED_M0nitor
