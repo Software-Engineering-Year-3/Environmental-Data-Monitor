@@ -1,5 +1,4 @@
 # Environmental-Data
-
-database:environmentmonitor
-user name:first_user
-passowrd:ED_M0nitor
+- Database: environmentmonitor
+- Username: first_user
+- Passowrd: ED_M0nitor
