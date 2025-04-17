@@ -1,24 +1,29 @@
-﻿namespace ED_Monitor;
+﻿using System.Collections.ObjectModel;
+using ED_Monitor.Data.Models;
+using ED_Monitor.Data.Services;
+namespace ED_Monitor;
+
+
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
+    private readonly DatabaseService _dbService = new DatabaseService();
+    public ObservableCollection<AirQualityData> AirData { get; set; }
 
-	public MainPage()
-	{
-		InitializeComponent();
-	}
+    public MainPage()
+    {
+        InitializeComponent();
+        AirData = new ObservableCollection<AirQualityData>();
+        DataView.ItemsSource = AirData;
+    }
 
-	private void OnCounterClicked(object sender, EventArgs e)
-	{
-		count++;
-
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
-
-		SemanticScreenReader.Announce(CounterBtn.Text);
-	}
+    private async void OnLoadDataClicked(object sender, EventArgs e)
+    {
+        var data = await _dbService.GetAirQualityDataAsync();
+        AirData.Clear();
+        foreach (var item in data)
+        {
+            AirData.Add(item);
+        }
+    }
 }
-
