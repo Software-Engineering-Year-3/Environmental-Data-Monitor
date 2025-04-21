@@ -6,6 +6,7 @@ namespace ED_Monitor.Data.Models;
 
 [Table("WheatherData")]
 [PrimaryKey(nameof(StationID))]
+
 public class WeatherData
 {
     public int StationID { get; set; }
@@ -14,4 +15,7 @@ public class WeatherData
     public float Humidity { get; set; }
     public float Wind_speed { get; set; }
     public float Wind_direction { get; set; }
+
+    public string WindStatus => WindSpeed > 20 ? "🌬️ Windy" : "✅ Calm";
+    public Color WindColor => WindSpeed > 20 ? Colors.OrangeRed : Colors.Green;
 }

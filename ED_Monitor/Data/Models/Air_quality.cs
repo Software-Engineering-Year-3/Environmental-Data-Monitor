@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ED_Monitor.Data.Models;
 
 [Table("AirQualityData")]
-[PrimaryKey(nameof(SiteName))]
+//[PrimaryKey(nameof(SiteName))]
 public class AirQualityData
 {
     public int StationID { get; set; }
