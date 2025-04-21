@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace ED_Monitor.Data.Models;
 
 [Table("AirQualityData")]
+//[PrimaryKey(nameof(SiteName))]
 public class AirQualityData
 {
     public required string Site_Name { get; set; } // Foreign key to air metadata table

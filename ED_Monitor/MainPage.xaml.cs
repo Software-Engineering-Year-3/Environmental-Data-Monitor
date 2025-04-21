@@ -1,29 +1,26 @@
-﻿using System.Collections.ObjectModel;
-using ED_Monitor.Data.Models;
-using ED_Monitor.Data.Services;
+﻿using ED_Monitor.Pages;
+
 namespace ED_Monitor;
-
-
 
 public partial class MainPage : ContentPage
 {
-    private readonly DatabaseService _dbService = new DatabaseService();
-    public ObservableCollection<AirQualityData> AirData { get; set; }
-
     public MainPage()
     {
         InitializeComponent();
-        AirData = new ObservableCollection<AirQualityData>();
-        DataView.ItemsSource = AirData;
     }
 
-    private async void OnLoadDataClicked(object sender, EventArgs e)
+    private async void OnAirQualityClicked(object sender, EventArgs e)
     {
-        var data = await _dbService.GetAirQualityDataAsync();
-        AirData.Clear();
-        foreach (var item in data)
-        {
-            AirData.Add(item);
-        }
+        await Shell.Current.GoToAsync(nameof(AirQualityPage));
+    }
+
+    private async void OnWaterQualityClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(WaterQualityPage));
+    }
+
+    private async void OnWeatherClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(WeatherPage));
     }
 }
