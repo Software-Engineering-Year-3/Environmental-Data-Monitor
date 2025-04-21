@@ -1,11 +1,9 @@
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ED_Monitor.Data.Models;
 
 [Table("WaterQualityData")]
-[PrimaryKey(nameof(SiteName))]
 public class WaterQualityData
 {
     public int SiteName { get; set; }

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using ED_Monitor.Data;
+using ED_Monitor.Database.Data;
 
-namespace ED_Monitor.Data;
+namespace ED_Monitor.Database.Data;
 public class ED_MonitorDbContext : DbContext
 {
 
