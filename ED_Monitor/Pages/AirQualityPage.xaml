@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ED_Monitor.Pages.AirQualityPage"
+             Title="Air Quality">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+
+            <Button Text="← Back to Home"
+                    Clicked="OnBackClicked"
+                    BackgroundColor="#eeeeee"
+                    TextColor="Black"
+                    CornerRadius="10"
+                    Margin="0,0,0,10" />
+
+            <Label Text="Air Quality Overview"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <RefreshView x:Name="RefreshControl" Command="{Binding RefreshCommand}">
+                <CollectionView x:Name="AirDataView">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BorderColor="LightGray" CornerRadius="8" Padding="10" Margin="5">
+                                <StackLayout Spacing="5">
+                                    <Label Text="📅 {Binding Date}" FontSize="16" />
+                                    <Label Text="{Binding NO2Emoji}" TextColor="{Binding NO2Color}" />
+                                    <Label Text="{Binding SO2Emoji}" TextColor="{Binding SO2Color}" />
+                                    <Label Text="{Binding PM25Emoji}" TextColor="{Binding PM25Color}" />
+                                    <Label Text="{Binding PM10Emoji}" TextColor="{Binding PM10Color}" />
+                                </StackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </RefreshView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
