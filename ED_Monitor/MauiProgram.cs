@@ -1,46 +1,51 @@
 ﻿using Microsoft.Extensions.Logging;
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
+using ED_Monitor.ViewModels;
+using ED_Monitor.App.Database.Data.Services;
+using Microsoft.EntityFrameworkCore;  
 
 
 namespace ED_Monitor;
 
 public static class MauiProgram
 {
-	public static MauiApp CreateMauiApp()
-	{
-		var builder = MauiApp.CreateBuilder();
-		builder
-			.UseMauiApp<App>()
-			.ConfigureFonts(fonts =>
-			{
-				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			});
+    public static MauiApp CreateMauiApp()
+    {
+        var builder = MauiApp.CreateBuilder();
 
-var a = Assembly.GetExecutingAssembly();
-using var stream = a.GetManifestResourceStream("ED_Monitor.appsettings.json");
-    
-var config = new ConfigurationBuilder()
-    .AddJsonStream(stream)
-    .Build();
-    
-builder.Configuration.AddConfiguration(config);
+        builder
+            .UseMauiApp<App>()
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+            });
 
-var connectionString = builder.Configuration.GetConnectionString("DevelopmentConnection");
-// to be uncommented when they can properly fit in code 
-// builder.Services.AddDbContext<ED_MonitorDbContext>(options => options.UseSqlServer(connectionString));
+        // ——— Configuration: prefer AddJsonFile over embedded-stream unless you need encryption
+        builder.Configuration
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+            .AddEnvironmentVariables();
 
-// builder.Services.AddSingleton<AllNotesViewModel>();
-// builder.Services.AddTransient<NoteViewModel>();
+        // ——— EF Core DbContext registration
+        var connectionString = builder.Configuration.GetConnectionString("DevelopmentConnection");
+        builder.Services.AddDbContext<ED_MonitorDbContext>(options =>
+            options.UseSqlServer(connectionString),
+            // In MAUI there’s no "Scoped" lifetime, so DbContext will behave as Transient
+            ServiceLifetime.Transient);
 
-// builder.Services.AddSingleton<AllNotesPage>();
-// builder.Services.AddTransient<NotePage>();
+        // ——— Wrap your DbContext in a DatabaseService
+        builder.Services.AddTransient<DatabaseService>();
 
-#if DEBUG
-		builder.Logging.AddDebug();
-#endif
+        // ——— ViewModels (Transient so each page gets a fresh VM instance)
+        builder.Services.AddTransient<AirQualityViewModel>();
+        builder.Services.AddTransient<WaterQualityViewModel>();
+        builder.Services.AddTransient<WeatherViewModel>();
 
-		return builder.Build();
-	}
+        #if DEBUG
+        builder.Logging.AddDebug();
+        #endif
+
+        return builder.Build();
+    }
 }

@@ -1,27 +1,21 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using ED_Monitor.ViewModels;
 
 namespace ED_Monitor.Pages;
 
 public partial class WeatherPage : ContentPage
 {
-    public ObservableCollection<WeatherSample> WeatherData { get; set; }
-    public ICommand RefreshCommand { get; set; }
+    private readonly WeatherViewModel vm;
 
-    public WeatherPage()
+    public WeatherPage(WeatherViewModel viewModel)
     {
         InitializeComponent();
 
-        WeatherData = new ObservableCollection<WeatherSample>
-        {
-            new WeatherSample { Date = DateOnly.FromDateTime(DateTime.Today), Temperature = 24.5f, Humidity = 60, WindSpeed = 18 },
-            new WeatherSample { Date = DateOnly.FromDateTime(DateTime.Today.AddDays(-1)), Temperature = 30.1f, Humidity = 72, WindSpeed = 22 },
-            new WeatherSample { Date = DateOnly.FromDateTime(DateTime.Today.AddDays(-2)), Temperature = 16.8f, Humidity = 55, WindSpeed = 10 }
-        };
+        vm = viewModel;
+        BindingContext = vm;
 
-        RefreshCommand = new Command(OnRefresh);
-        BindingContext = this;
-        WeatherDataView.ItemsSource = WeatherData;
+        this.Loaded += (_, __) => vm.LoadDataCommand.Execute(null);
     }
 
     private async void OnRefresh()

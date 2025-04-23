@@ -1,29 +1,25 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ED_Monitor.Data.Models;
+using ED_Monitor.ViewModels;
+using CommunityToolkit.Mvvm.Input;
 
 namespace ED_Monitor.Pages;
 
 public partial class AirQualityPage : ContentPage
 {
-    public ObservableCollection<AirQualitySample> AirData { get; set; }
-    public ICommand RefreshCommand { get; set; }
+    private readonly AirQualityViewModel vm;
 
-    public AirQualityPage()
+    public AirQualityPage(AirQualityViewModel viewModel)
     {
-        InitializeComponent();
+    InitializeComponent();
 
-        AirData = new ObservableCollection<AirQualitySample>
-        {
-            new AirQualitySample { Date = DateOnly.FromDateTime(DateTime.Today), NO2 = 45, SO2 = 4, PM25 = 10, PM10 = 58 },
-            new AirQualitySample { Date = DateOnly.FromDateTime(DateTime.Today.AddDays(-1)), NO2 = 28, SO2 = 2.5f, PM25 = 7, PM10 = 32 },
-        };
+    vm = viewModel;            // store injected VM
+    BindingContext = vm;        // bind page to VM
 
-        RefreshCommand = new Command(() => OnRefresh());
-        BindingContext = this;
-        AirDataView.ItemsSource = AirData;
+    // load initial data when page appears
+    this.Loaded += async (_, __) => await vm.LoadDataCommand.ExecuteAsync(null);
     }
-
     private async void OnRefresh()
     {
         await Task.Delay(1000);

@@ -1,27 +1,25 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using ED_Monitor.ViewModels;
 
 namespace ED_Monitor.Pages;
 
 public partial class WaterQualityPage : ContentPage
 {
-    public ObservableCollection<WaterSample> WaterData { get; set; }
-    public ICommand RefreshCommand { get; set; }
+    private readonly WaterQualityViewModel vm;
 
-    public WaterQualityPage()
+    public WaterQualityPage(WaterQualityViewModel viewModel)
     {
         InitializeComponent();
 
-        WaterData = new ObservableCollection<WaterSample>
-        {
-            new WaterSample { Date = DateOnly.FromDateTime(DateTime.Today), PH = 7.2f, EC = 440, Nitrate = 2.1f, Nitrite = 0.4f },
-            new WaterSample { Date = DateOnly.FromDateTime(DateTime.Today.AddDays(-1)), PH = 6.0f, EC = 510, Nitrate = 3.2f, Nitrite = 0.6f },
-        };
+        vm = viewModel;            // store injected VM
+        BindingContext = vm;        // bind page to VM
 
-        RefreshCommand = new Command(() => OnRefresh());
-        BindingContext = this;
-        WaterDataView.ItemsSource = WaterData;
+        // load initial data when page appears
+        this.Loaded += async (_, __) => await vm.LoadDataCommand.ExecuteAsync(null);
     }
+    
+     
 
     private async void OnRefresh()
     {
