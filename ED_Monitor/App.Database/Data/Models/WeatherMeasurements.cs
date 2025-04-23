@@ -1,7 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using ED_Monitor.AppDatabase.Data;
+using ED_Monitor.AppDatabase.Data.Models;
+namespace ED_Monitor.AppDatabase.Data;
 
-namespace ED_Monitor.Data.Models;
 
 [Table("WeatherData")]
 public class WeatherData

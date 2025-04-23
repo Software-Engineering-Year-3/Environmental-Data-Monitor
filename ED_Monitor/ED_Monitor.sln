@@ -1,10 +1,11 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.2.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ED_Monitor", "ED_Monitor.csproj", "{AAF46793-C558-07AC-C773-153DAB3455DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Database", "App.Database\App.Database.csproj", "{4FED40C4-6C80-4658-87DF-E7F6FA2DF87B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppDatabase", "App.Database\AppDatabase.csproj", "{4FED40C4-6C80-4658-87DF-E7F6FA2DF87B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

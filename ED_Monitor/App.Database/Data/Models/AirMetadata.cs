@@ -2,7 +2,11 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ED_Monitor.Data.Models;
+
+using ED_Monitor.AppDatabase.Data;
+using ED_Monitor.AppDatabase.Data.Models;
+
+namespace ED_Monitor.AppDatabase.Data;
 
 [Table("AirMetadata")]
 public class AirMetadata
