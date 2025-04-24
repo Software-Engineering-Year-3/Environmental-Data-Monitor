@@ -1,7 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ED_Monitor.App.Database.Data.Services;
-using ED_Monitor.App.Database.Data.Models;
+using ED_Monitor.Data.Services;
+using ED_Monitor.Data.Models;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -15,11 +15,11 @@ namespace ED_Monitor.ViewModels
         {
             db = databaseService;
             Title = "Weather";
-            WeatherReadings = new ObservableCollection<WeatherMeasurements>();
+            WeatherReadings = new ObservableCollection<WeatherData>();
         }
 
         [ObservableProperty]
-        ObservableCollection<WeatherMeasurements> weatherReadings;
+        ObservableCollection<WeatherData> weatherReadings;
 
         [RelayCommand]
         async Task LoadDataAsync()
@@ -28,7 +28,7 @@ namespace ED_Monitor.ViewModels
             try
             {
                 IsBusy = true;
-                var data = await db.GetWeatherAsync();
+                var data = await db.GetWeatherDataAsync();
                 WeatherReadings.Clear();
                 foreach (var item in data)
                     WeatherReadings.Add(item);

@@ -14,5 +14,20 @@ namespace ED_Monitor.Data.Services
             var query = "SELECT Date, NO2, SO2, PM25, PM10 FROM AirQualityData";
             return await connection.QueryAsync<AirQualityData>(query);
         }
+
+        public async Task<IEnumerable<WaterQualityData>> GetWaterQualityDataAsync()
+        {
+            using var conn = new SqlConnection(_connectionString);
+            const string sql = "SELECT SiteName, Date, Nitrate, Nitrite, Phosphate FROM WaterQualityData";
+            return await conn.QueryAsync<WaterQualityData>(sql);
+        }
+
+        public async Task<IEnumerable<WeatherData>> GetWeatherDataAsync()
+        {
+            using var conn = new SqlConnection(_connectionString);
+            const string sql = "SELECT ID, Timestamp, Temperature, Humidity, WindSpeed, WindDirection FROM WeatherData";
+            return await conn.QueryAsync<WeatherData>(sql);
+        }
+
     }
 }
