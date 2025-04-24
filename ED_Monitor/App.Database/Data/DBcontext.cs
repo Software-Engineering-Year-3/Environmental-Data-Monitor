@@ -1,8 +1,8 @@
-using ED_Monitor.Data.Models;
-using Microsoft.Data.SqlClient; 
-using Dapper; // For Queries 
+using Microsoft.EntityFrameworkCore;
+using ED_Monitor.Database.Models;
+    
+namespace ED_Monitor.App.Database.Data;
 
-namespace ED_Monitor.Data.Services
 {
     public class DatabaseService
     {
@@ -14,6 +14,22 @@ namespace ED_Monitor.Data.Services
             var query = "SELECT Date, NO2, SO2, PM25, PM10 FROM AirQualityData";
             return await connection.QueryAsync<AirQualityData>(query);
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            var a = Assembly.GetExecutingAssembly();
+            var resources = a.GetManifestResourceNames();
+            using var stream = a.GetManifestResourceStream("ED_Monitor.App.Database.appsettings.json");
+
+            var config = new ConfigurationBuilder()
+            .AddJsonStream(stream)
+            .Build();
+
+            optionsBuilder.UseSqlServer(
+            config.GetConnectionString("DevelopmentConnection")
+            );
+        }
+
     }
 }
 

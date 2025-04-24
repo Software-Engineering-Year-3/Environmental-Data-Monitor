@@ -1,9 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using System.Reflection;
-using Microsoft.Extensions.Configuration;
 using ED_Monitor.ViewModels;
 using ED_Monitor.App.Database.Data.Services;
-using Microsoft.EntityFrameworkCore;  
 
 
 namespace ED_Monitor;
@@ -29,10 +26,7 @@ public static class MauiProgram
 
         // ——— EF Core DbContext registration
         var connectionString = builder.Configuration.GetConnectionString("DevelopmentConnection");
-        builder.Services.AddDbContext<ED_MonitorDbContext>(options =>
-            options.UseSqlServer(connectionString),
-            // In MAUI there’s no "Scoped" lifetime, so DbContext will behave as Transient
-            ServiceLifetime.Transient);
+        builder.Services.AddDbContext();
 
         // ——— Wrap your DbContext in a DatabaseService
         builder.Services.AddTransient<DatabaseService>();

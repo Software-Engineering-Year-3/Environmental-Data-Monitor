@@ -51,6 +51,13 @@ project.nuget.cache
 !.vscode/launch.json
 !.vscode/extensions.json
 
+ED_Monitor/bin/
+ED_Monitor/obj/
+ED_Monitor.App.Database/obj/
+ED_Monitor.App.Database/bin/
+ED_Monitor.App.Database/appsettings.json
+.vscode
+
 #--------------------------------------------------------------------------
 # OS Generated Files
 #--------------------------------------------------------------------------
