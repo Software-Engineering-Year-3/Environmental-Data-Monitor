@@ -1,0 +1,162 @@
+[
+  {
+    "SensorID":1000,
+    "Name":"Air Sensor 1",
+    "Type":"Air",
+    "Latitude":55.94921,
+    "Longitude":-3.196389,
+    "Status":"Active"
+  },
+  {
+    "SensorID":1001,
+    "Name":"Air Sensor 2",
+    "Type":"Air",
+    "Latitude":55.953618,
+    "Longitude":-3.183006,
+    "Status":"Maintenance Required"
+  },
+  {
+    "SensorID":1002,
+    "Name":"Water Sensor 3",
+    "Type":"Water",
+    "Latitude":55.948005,
+    "Longitude":-3.192437,
+    "Status":"Active"
+  },
+  {
+    "SensorID":1003,
+    "Name":"Air Sensor 4",
+    "Type":"Air",
+    "Latitude":55.959266,
+    "Longitude":-3.194421,
+    "Status":"Active"
+  },
+  {
+    "SensorID":1004,
+    "Name":"Water Sensor 5",
+    "Type":"Water",
+    "Latitude":55.944769,
+    "Longitude":-3.186508,
+    "Status":"Offline"
+  },
+  {
+    "SensorID":1005,
+    "Name":"Air Sensor 6",
+    "Type":"Air",
+    "Latitude":55.945315,
+    "Longitude":-3.189097,
+    "Status":"Offline"
+  },
+  {
+    "SensorID":1006,
+    "Name":"Water Sensor 7",
+    "Type":"Water",
+    "Latitude":55.954295,
+    "Longitude":-3.189579,
+    "Status":"Offline"
+  },
+  {
+    "SensorID":1007,
+    "Name":"Water Sensor 8",
+    "Type":"Water",
+    "Latitude":55.946791,
+    "Longitude":-3.187739,
+    "Status":"Active"
+  },
+  {
+    "SensorID":1008,
+    "Name":"Air Sensor 9",
+    "Type":"Air",
+    "Latitude":55.942623,
+    "Longitude":-3.18382,
+    "Status":"Active"
+  },
+  {
+    "SensorID":1009,
+    "Name":"Weather Sensor 10",
+    "Type":"Weather",
+    "Latitude":55.956645,
+    "Longitude":-3.181319,
+    "Status":"Active"
+  },
+  {
+    "SensorID":1010,
+    "Name":"Weather Sensor 11",
+    "Type":"Weather",
+    "Latitude":55.958652,
+    "Longitude":-3.196524,
+    "Status":"Active"
+  },
+  {
+    "SensorID":1011,
+    "Name":"Air Sensor 12",
+    "Type":"Air",
+    "Latitude":55.95994,
+    "Longitude":-3.180667,
+    "Status":"Maintenance Required"
+  },
+  {
+    "SensorID":1012,
+    "Name":"Air Sensor 13",
+    "Type":"Air",
+    "Latitude":55.947862,
+    "Longitude":-3.181288,
+    "Status":"Active"
+  },
+  {
+    "SensorID":1013,
+    "Name":"Weather Sensor 14",
+    "Type":"Weather",
+    "Latitude":55.949179,
+    "Longitude":-3.194481,
+    "Status":"Active"
+  },
+  {
+    "SensorID":1014,
+    "Name":"Weather Sensor 15",
+    "Type":"Weather",
+    "Latitude":55.940232,
+    "Longitude":-3.183964,
+    "Status":"Maintenance Required"
+  },
+  {
+    "SensorID":1015,
+    "Name":"Water Sensor 16",
+    "Type":"Water",
+    "Latitude":55.940545,
+    "Longitude":-3.18528,
+    "Status":"Maintenance Required"
+  },
+  {
+    "SensorID":1016,
+    "Name":"Air Sensor 17",
+    "Type":"Air",
+    "Latitude":55.957825,
+    "Longitude":-3.190204,
+    "Status":"Maintenance Required"
+  },
+  {
+    "SensorID":1017,
+    "Name":"Water Sensor 18",
+    "Type":"Water",
+    "Latitude":55.941842,
+    "Longitude":-3.193484,
+    "Status":"Active"
+  },
+  {
+    "SensorID":1018,
+    "Name":"Air Sensor 19",
+    "Type":"Air",
+    "Latitude":55.951387,
+    "Longitude":-3.182397,
+    "Status":"Active"
+  },
+  {
+    "SensorID":1019,
+    "Name":"Water Sensor 20",
+    "Type":"Water",
+    "Latitude":55.954499,
+    "Longitude":-3.184062,
+    "Status":"Maintenance Required"
+  }
+]
