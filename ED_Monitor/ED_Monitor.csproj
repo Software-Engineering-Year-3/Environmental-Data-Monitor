@@ -69,6 +69,11 @@
 	</ItemGroup>
 	
 <ItemGroup>
+    <!-- Include Mock_Sensors_Metadata.json as an embedded resource -->
+    <EmbeddedResource Include="Resources\Raw\Mock_Sensors_Metadata.json" />
+  </ItemGroup>	
+	
+<ItemGroup>
     <EmbeddedResource Include="appsettings.json" />
     <None Update="appsettings.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
