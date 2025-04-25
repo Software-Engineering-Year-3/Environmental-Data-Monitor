@@ -37,8 +37,17 @@ public partial class MainPage : ContentPage
       private async void OnMapClicked(object sender, EventArgs e)
 {
     await DisplayAlert("DEBUG", "Map button clicked", "OK");
-    await Shell.Current.GoToAsync(nameof(SensorMapPage));
+
+    try
+    {
+        await Shell.Current.GoToAsync(nameof(SensorMapPage));
+    }
+    catch (Exception ex)
+    {
+        await DisplayAlert("Navigation Error", ex.Message, "OK");
+    }
 }
+
 
     
 }
