@@ -3,13 +3,11 @@
              xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
              x:Class="ED_Monitor.Pages.SensorMapPage"
              Title="Sensor Map">
-
     <Grid>
-       <maps:Map x:Name="SensorMap"
-          MapType="Street"
-          IsShowingUser="True"
-          IsScrollEnabled="True"
-          IsZoomEnabled="True" />
-
+        <maps:Map x:Name="SensorMap"
+                  MapType="Street"
+                  IsShowingUser="True"
+                  IsScrollEnabled="True"
+                  IsZoomEnabled="True" />
     </Grid>
 </ContentPage>

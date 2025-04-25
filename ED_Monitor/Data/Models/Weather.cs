@@ -18,4 +18,5 @@ public class WeatherData
 
     public string WindStatus => Wind_speed > 20 ? "🌬️ Windy" : "✅ Calm";
     public Color WindColor => Wind_speed > 20 ? Colors.OrangeRed : Colors.Green;
+    
 }

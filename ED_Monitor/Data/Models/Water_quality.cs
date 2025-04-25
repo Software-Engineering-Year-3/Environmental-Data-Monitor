@@ -15,4 +15,5 @@ public class WaterQualityData
     public float Nitrite { get; set; }
     public float Phosphate { get; set; }
     public float EC { get; set; }
+    
 }
