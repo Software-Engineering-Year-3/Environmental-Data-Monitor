@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
+             xmlns:vm="clr-namespace:ED_Monitor.ViewModels"
+             x:Class="ED_Monitor.Pages.ReportPage"
+             Title="ReportPage">
+
+    <ContentPage.BindingContext>
+    <vm:ReportViewModel />
+    </ContentPage.BindingContext>
+
+    <VerticalStackLayout Padding="10" Spacing="12">
+        <Button Text="Generate Chart" Command="{Binding GenerateReportCommand}" />
+        <lvc:CartesianChart 
+            Series="{Binding ChartSeries}"
+            HeightRequest="300" />
+        <Button Text="Export as PDF" Command="{Binding ExportReportCommand}" />
+  </VerticalStackLayout>
+</ContentPage>
