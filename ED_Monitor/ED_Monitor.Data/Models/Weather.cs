@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ED_Monitor.Data.Models;
+namespace ED_Monitor.Data;
 
 [Table("WheatherData")]
 [PrimaryKey(nameof(StationID))]

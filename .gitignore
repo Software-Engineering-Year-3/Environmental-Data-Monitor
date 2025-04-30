@@ -26,7 +26,13 @@ project.nuget.cache
 #--------------------------------------------------------------------------
 # .NET MAUI Specific
 #--------------------------------------------------------------------------
-
+ED_Monitor/bin/
+ED_Monitor/obj/
+ED_Monitor.Database/bin/
+ED_Monitor.Database/obj/
+ED_Monitor.Database/appsettings.json
+ED_Monitor.Migrations/obj/
+ED_Monitor.Migrations/bin/
 
 #--------------------------------------------------------------------------
 # Android Specific

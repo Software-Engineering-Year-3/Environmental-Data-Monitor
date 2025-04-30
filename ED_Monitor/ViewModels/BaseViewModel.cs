@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 
+
 namespace ED_Monitor.ViewModels
 {
     public class BaseViewModel : ObservableObject

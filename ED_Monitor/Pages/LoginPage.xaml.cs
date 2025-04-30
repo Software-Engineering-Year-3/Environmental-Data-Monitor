@@ -26,7 +26,7 @@ public partial class LoginPage : ContentPage
 
                 await DisplayAlert("Success", $"Welcome {user.Name}", "OK");
 
-                // ✅ Use Shell to navigate to MainPage
+                //  Use Shell to navigate to MainPage
                 await Shell.Current.GoToAsync("//MainPage");
                 return;
             }

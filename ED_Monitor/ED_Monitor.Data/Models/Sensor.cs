@@ -1,5 +1,11 @@
-namespace ED_Monitor.Models;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
+namespace ED_Monitor.Data;
+
+[Table("SensorMetadata")]
+[PrimaryKey(nameof(Id))]
 public class Sensor
 {
     public int Id { get; set; } = 0;

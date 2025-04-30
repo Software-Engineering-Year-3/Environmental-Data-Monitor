@@ -1,7 +1,8 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-// using ED_Monitor.App.Database.Data.Services;
-// using ED_Monitor.App.Database.Data.Models;
+using ED_Monitor.Database.Data;
+using ED_Monitor.Database.Data.Services;
+using ED_Monitor.Database.Models;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
