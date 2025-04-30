@@ -16,6 +16,7 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(WaterQualityPage), typeof(WaterQualityPage));
         Routing.RegisterRoute(nameof(WeatherPage), typeof(WeatherPage));
         Routing.RegisterRoute(nameof(SensorMapPage), typeof(SensorMapPage));
+        Routing.RegisterRoute(nameof(ReportPage), typeof(ReportPage));
 
     }
 }
