@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ED_Monitor.Data.Models;
+namespace ED_Monitor.Data;
 
 [Table("WaterQualityData")]
 [PrimaryKey(nameof(SiteName))]
@@ -15,4 +15,5 @@ public class WaterQualityData
     public float Nitrite { get; set; }
     public float Phosphate { get; set; }
     public float EC { get; set; }
+    
 }

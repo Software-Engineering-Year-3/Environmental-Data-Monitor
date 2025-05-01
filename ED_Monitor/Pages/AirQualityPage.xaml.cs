@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using ED_Monitor.Data.Models;
+using ED_Monitor.ViewModels;
 
 namespace ED_Monitor.Pages;
 
@@ -11,6 +12,7 @@ public partial class AirQualityPage : ContentPage
 
     public AirQualityPage()
     {
+        BindingContext = this;
         InitializeComponent();
 
         AirData = new ObservableCollection<AirQualitySample>
@@ -20,7 +22,6 @@ public partial class AirQualityPage : ContentPage
         };
 
         RefreshCommand = new Command(() => OnRefresh());
-        BindingContext = this;
         AirDataView.ItemsSource = AirData;
     }
 

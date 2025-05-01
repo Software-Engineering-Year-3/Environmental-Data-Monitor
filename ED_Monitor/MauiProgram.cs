@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using System.Reflection;
-using Microsoft.Extensions.Configuration;
+
 
 
 namespace ED_Monitor;
@@ -19,21 +18,24 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
-var a = Assembly.GetExecutingAssembly();
-using var stream = a.GetManifestResourceStream("ED_Monitor.appsettings.json")
-    ?? throw new InvalidOperationException("Could not find 'appsettings.json' in resources.");
 
-builder.Configuration.AddConfiguration(new ConfigurationBuilder().AddJsonStream(stream).Build());
+	builder.Services.AddDbContext();
 
-var connectionString = builder.Configuration.GetConnectionString("DevelopmentConnection");
 // to be uncommented when they can properly fit in code 
-// builder.Services.AddDbContext<ED_MonitorDbContext>(options => options.UseSqlServer(connectionString));
+	builder.Services.AddDbContext<ED_MonitorDbContext>(options => options.UseSqlServer(connectionString));
+	builder.Services.AddDbContext<ED_MonitorDbContext>(options => options.UseSqlServer(connectionString));
 
-// builder.Services.AddSingleton<AllNotesViewModel>();
-// builder.Services.AddTransient<NoteViewModel>();
+	// Register ViewModels
+	builder.Services.AddSingleton<SensorViewModel>();
+	builder.Services.AddTransient<WaterQualityViewModel>();
+	builder.Services.AddTransient<WeatherViewModel>();
+	builder.Services.AddTransient<UserViewModel>();
 
-// builder.Services.AddSingleton<AllNotesPage>();
-// builder.Services.AddTransient<NotePage>();
+	// Register Pages
+	builder.Services.AddSingleton<SensorPage>();
+	builder.Services.AddTransient<WaterQualityPage>();
+	builder.Services.AddTransient<WeatherPage>();
+	builder.Services.AddTransient<UserPage>();
 
 #if DEBUG
 		builder.Logging.AddDebug();

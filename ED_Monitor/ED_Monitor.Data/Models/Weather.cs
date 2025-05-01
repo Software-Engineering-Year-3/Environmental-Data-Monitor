@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ED_Monitor.Data.Models;
+namespace ED_Monitor.Data;
 
 [Table("WheatherData")]
 [PrimaryKey(nameof(StationID))]
@@ -18,4 +18,5 @@ public class WeatherData
 
     public string WindStatus => Wind_speed > 20 ? "🌬️ Windy" : "✅ Calm";
     public Color WindColor => Wind_speed > 20 ? Colors.OrangeRed : Colors.Green;
+    
 }
