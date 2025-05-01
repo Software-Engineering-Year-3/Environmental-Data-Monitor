@@ -6,6 +6,7 @@
     <ShellContent Title="Login" ContentTemplate="{DataTemplate pages:LoginPage}" Route="LoginPage" />
     <ShellContent Title="🏠 Home" ContentTemplate="{DataTemplate pages:MainPage}" Route="MainPage" />
     <ShellContent Title="📍 Sensor Map" ContentTemplate="{DataTemplate pages:SensorMapPage}" Route="SensorMapPage" />
+    <ShellContent Title="Reports" ContentTemplate="{DataTemplate local:ReportPage}" />
 
 </TabBar>
 </Shell>
