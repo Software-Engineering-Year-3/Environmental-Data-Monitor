@@ -1,9 +1,12 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using ED_Monitor.App.Database.Data.Services;
-using ED_Monitor.App.Database.Data.Models;
+using ED_Monitor.Data;
+using ED_Monitor.Data.Models;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using ED_Monitor.Database;
+using ED_Monitor.Data.Services;
+
 
 namespace ED_Monitor.ViewModels
 {
@@ -15,11 +18,12 @@ namespace ED_Monitor.ViewModels
         {
             db = databaseService;
             Title = "Air Quality";
-            AirReadings = new ObservableCollection<Air_quality>();
+            AirReadings = new ObservableCollection<AirMetadata>();
         }
 
         [ObservableProperty]
-        ObservableCollection<Air_quality> airReadings;
+        ObservableCollection<AirMetadata> airReadings;
+
 
         [RelayCommand]
         async Task LoadDataAsync()
@@ -28,10 +32,11 @@ namespace ED_Monitor.ViewModels
             try
             {
                 IsBusy = true;
-                var data = await db.GetAirQualityAsync();    // make sure your DatabaseService has this
+                var data = await db.GetAirQualityAsync();   
                 AirReadings.Clear();
                 foreach (var item in data)
-                    AirReadings.Add(item);
+                    AirReadings.Add((AirMetadata)item);
+
             }
             finally
             {
