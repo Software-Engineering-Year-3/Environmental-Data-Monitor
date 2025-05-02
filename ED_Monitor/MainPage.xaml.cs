@@ -1,24 +1,26 @@
-﻿namespace ED_Monitor;
+﻿using ED_Monitor.Pages;
+
+namespace ED_Monitor;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
+    public MainPage()
+    {
+        InitializeComponent();
+    }
 
-	public MainPage()
-	{
-		InitializeComponent();
-	}
+    private async void OnAirQualityClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(AirQualityPage));
+    }
 
-	private void OnCounterClicked(object sender, EventArgs e)
-	{
-		count++;
+    private async void OnWaterQualityClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(WaterQualityPage));
+    }
 
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
-
-		SemanticScreenReader.Announce(CounterBtn.Text);
-	}
+    private async void OnWeatherClicked(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync(nameof(WeatherPage));
+    }
 }
-

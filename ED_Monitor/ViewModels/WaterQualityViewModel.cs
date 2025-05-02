@@ -22,6 +22,7 @@ namespace ED_Monitor.ViewModels
         [ObservableProperty]
         ObservableCollection<WaterQualityData> waterReadings;
 
+
         [RelayCommand]
         async Task LoadDataAsync()
         {
@@ -33,6 +34,7 @@ namespace ED_Monitor.ViewModels
                 WaterReadings.Clear();
                 foreach (var item in data)
                     WaterReadings.Add((WaterQualityData)item);
+
             }
             finally
             {

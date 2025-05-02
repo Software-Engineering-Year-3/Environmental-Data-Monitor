@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ED_Monitor.Database;
 using ED_Monitor.Data.Services;
 
+
 namespace ED_Monitor.ViewModels
 {
     public partial class AirQualityViewModel : BaseViewModel
@@ -23,6 +24,7 @@ namespace ED_Monitor.ViewModels
         [ObservableProperty]
         ObservableCollection<AirMetadata> airReadings;
 
+
         [RelayCommand]
         async Task LoadDataAsync()
         {
@@ -34,6 +36,7 @@ namespace ED_Monitor.ViewModels
                 AirReadings.Clear();
                 foreach (var item in data)
                     AirReadings.Add((AirMetadata)item);
+
             }
             finally
             {

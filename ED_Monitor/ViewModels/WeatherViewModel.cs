@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using ED_Monitor.Data;
 using ED_Monitor.Data.Services;
 using ED_Monitor.Data.Models;
+
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
@@ -33,6 +34,7 @@ namespace ED_Monitor.ViewModels
                 WeatherReadings.Clear();
                 foreach (var item in data)
                     WeatherReadings.Add((WeatherData)item);
+
             }
             finally
             {
