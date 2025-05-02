@@ -5,14 +5,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ED_Monitor.Data;
 
-[Table("AirMetadata")]
+[Table("AirQualityReading")]
 [PrimaryKey(nameof(Site_Name))]
-public class AirMetadata
+
+
+public class AirQualityReading
 {
     public required string Site_Name { get; set; } 
-    public float Latitude { get; set; }
-    public float Longitude { get; set; }
-    public int Elevation { get; set; }
-    public int Utc_offset { get; set; }
-    public required string LocalAuthority { get; set; }
+    public DateTime Time { get; set; } // Assuming a common Time or DateTime field
+    public double NO2 { get; set; }
+    public double SO2 { get; set; }
+    public double PM2_5 { get; set; }
+    public double PM10 { get; set; }
+    // ... other properties
 }
