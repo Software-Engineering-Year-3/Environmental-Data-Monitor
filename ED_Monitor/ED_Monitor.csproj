@@ -63,25 +63,24 @@
   <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
   <PrivateAssets>all</PrivateAssets>
 </PackageReference>
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.4">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		  <PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 
-		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.60" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.60" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.4" />
-		<PackageReference Include="Microsoft.Maui.Controls.Maps" Version="9.0.60" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Maui.Controls.Maps" Version="8.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.4">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		  <PrivateAssets>all</PrivateAssets>
 		</PackageReference>
 	</ItemGroup>
 	
 	<ItemGroup>
-		<ProjectReference Include="../ED_Monitor.Database/ED_Monitor.Database.csproj" />
-		<ProjectReference Include="ED_Monitor.Data\ED_Monitor.Data.csproj" />
+		<ProjectReference Include="..\ED_Monitor.Common.csproj" />
 	</ItemGroup>
 <ItemGroup>
     <!-- Include Mock_Sensors_Metadata.json as an embedded resource -->
