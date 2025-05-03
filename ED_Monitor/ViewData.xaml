@@ -11,19 +11,19 @@
             <!--Air Quality section-->
             <Label Text="Air Quality Data"
                 FontSize="20" FontAttributes="Bold" HorizontalOptions="Center"/>
-            <GraphicView x:Name="AirQualityView" HeightRequest="300" 
+            <StackLayout x:Name="AirQualityView" HeightRequest="300" 
                 BackgroundColor="LightGrey"/>
             
             <!--Water Quality section-->
             <Label Text="Water Quality Data"
                 FontSize="20" FontAttributes="Bold" HorizontalOptions="Center"/>
-            <GraphicView x:Name="WaterQualityView" HeightRequest="300"
+            <StackLayout x:Name="WaterQualityView" HeightRequest="300"
                 BackgroundColor="LightGrey"/>
             
             <!--Weather Quality section-->
             <Label Text="Weather Quality Data"
                 FontSize="20" FontAttributes="Bold" HorizontalOptions="Center"/>
-            <GraphicView x:Name="WeatherQualityView" HeightRequest="300"
+            <StackLayout x:Name="WeatherQualityView" HeightRequest="300"
                 BackgroundColor="LightGrey"/>
         </VerticalStackLayout>
     </ScrollView>       

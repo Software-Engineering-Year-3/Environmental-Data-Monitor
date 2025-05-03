@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environmental Data Monitor Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2, h3 {
+            color: #333; 
+        }
+        pre {
+            background: #f4f4f4; 
+            padding: 10px;
+            border: 1px solid #ddd; 
+            overflow-x: auto; 
+        }
+        code {
+            color: #c7254e; 
+            background: #f9f2f4; 
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ViewData Documentation</h1>
+    <p>This documentation provides an overview of the code for the first issue:
+		"View and analysise historical data".</p>
+
+    <h2>Overview</h2>
+    <p>This issue focuses on allowing the appropriate user to view and analysise the data given by the sensors, in order to study and recognise patterns, trends and potential future risks.</p>
+
+    <h2>Key Components</h2>
+    <ul>
+        <li><strong>ViewData.xaml.cs</strong>:It displays air quality, water quality, and weather quality data using charts.
+			The data is fetched from a mock database and rendered dynamically.</li>
+        <li><strong>ViewData.xaml</strong>: It defines the UI layout of the dashboard - it uses a "ScrollView" and "VerticalStack" 
+			to ensure an organised sections for air quality, water, etc..</li>
+    </ul>
+
+    <h2>XAML Structure</h2>
+    <pre><code>
+	lt;ScrollView&gt;
+		&lt;VerticalStackLayout Padding="20"&gt;
+			&lt;!-- Air Quality Section --&gt;
+			&lt;Label Text="Air Quality Data" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" /&gt;
+			&lt;StackLayout x:Name="AirQualityView" HeightRequest="300" BackgroundColor="LightGrey" /&gt;
+
+			&lt;!-- Water Quality Section --&gt;
+			&lt;Label Text="Water Quality Data" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" /&gt;
+			&lt;StackLayout x:Name="WaterQualityView" HeightRequest="300" BackgroundColor="LightGrey" /&gt;
+
+			&lt;!-- Weather Quality Section --&gt;
+			&lt;Label Text="Weather Quality Data" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" /&gt;
+			&lt;StackLayout x:Name="WeatherQualityView" HeightRequest="300" BackgroundColor="LightGrey" /&gt;
+		&lt;/VerticalStackLayout&gt;
+	&lt;/ScrollView&gt;
+	</code></pre>
+	
+	<h3>Key Elements</h3>
+	<ul> 
+		<li><strong>ScrollView</strong>:Ensures the page can be scrollable if the content occupies more that the screen height space</li>
+		<li><strong>VerticalStackLayout</strong>:Stacks sections of the dashboard vertically</li>
+		<li><strong>StackLayout</strong>: It is used in each data section in order to dynamically stack charts</li>
+	</ul>
+	
+	<h4>XAML.cs Methods</h4>
+	<ul>
+		<li><strong>LoadDashbardData</strong>:Fetches data for all the data types and calls the respective chart generation methods</li>
+		<li><strong>GenerateLineChart</strong>:The helper reusable method to create a "GraphicsView" with a line chart for all the data types</li>
+		<li><strong>GenerateAirQualityChart</strong>:Generates charts for air quality data</li>
+		<li><strong>GenerateWaterQualityChart</strong>:Generates charts for water quality data</li>
+		<li><strong>GenerateWeatherQualityChart</strong>:Generates charts for weather quality data</li>
+
+	</ul>

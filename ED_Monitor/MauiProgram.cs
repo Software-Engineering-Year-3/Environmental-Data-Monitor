@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
+using ED_Monitor.Data;
 
 
-
-namespace ED_Monitor;
+namespace ED_Monitor.Pages;
 
 public static class MauiProgram
 {
@@ -19,23 +19,23 @@ public static class MauiProgram
 			});
 
 
-	builder.Services.AddDbContext();
+	// sbuilder.Services.AddDatabaseService();
 
 // to be uncommented when they can properly fit in code 
-	builder.Services.AddDbContext<ED_MonitorDbContext>(options => options.UseSqlServer(connectionString));
-	builder.Services.AddDbContext<ED_MonitorDbContext>(options => options.UseSqlServer(connectionString));
+	// builder.Services.AddDbContext<DatabaseService>(options => options.UseSqlServer(connectionString));
+	// builder.Services.AddDbContext<DatabaseService>(options => options.UseSqlServer(connectionString));
 
 	// Register ViewModels
-	builder.Services.AddSingleton<SensorViewModel>();
-	builder.Services.AddTransient<WaterQualityViewModel>();
-	builder.Services.AddTransient<WeatherViewModel>();
-	builder.Services.AddTransient<UserViewModel>();
+	// builder.Services.AddSingleton<SensorViewModel>();
+	// builder.Services.AddTransient<AirQualityViewModel>();
+	// builder.Services.AddTransient<WeatherViewModel>();
 
 	// Register Pages
-	builder.Services.AddSingleton<SensorPage>();
+	// builder.Services.AddSingleton<IDataService>();
+	builder.Services.AddSingleton<SensorMapPage>();
 	builder.Services.AddTransient<WaterQualityPage>();
 	builder.Services.AddTransient<WeatherPage>();
-	builder.Services.AddTransient<UserPage>();
+	builder.Services.AddTransient<SignUpPage>();
 
 #if DEBUG
 		builder.Logging.AddDebug();
