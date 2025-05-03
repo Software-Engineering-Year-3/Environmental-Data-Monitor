@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+using ED_Monitor.ViewModels;
+using ED_Monitor.Services;
+using ED_Monitor.Interfaces;
 
 namespace ED_Monitor;
 
@@ -18,6 +21,10 @@ public static class MauiProgram
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
+
+		// ✅ Dependency Injection setup
+		builder.Services.AddSingleton<ISensorService, SensorService>();  // Shared service
+		builder.Services.AddTransient<SensorViewModel>();               // ViewModel (new per use)
 
 		return builder.Build();
 	}

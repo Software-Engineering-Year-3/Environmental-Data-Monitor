@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:ED_Monitor.ViewModels"
+    x:Class="ED_Monitor.Views.SensorListPage"
+    Title="Sensor Manager">
+
+    <VerticalStackLayout Padding="20" Spacing="15">
+
+        <!-- Input Fields -->
+        <Entry Placeholder="Sensor Model"
+               Text="{Binding NewSensorModel}" />
+        
+        <Entry Placeholder="Sensor Location"
+               Text="{Binding NewSensorLocation}" />
+
+        <Button Text="Add Sensor"
+                Command="{Binding AddSensorCommand}" />
+
+        <!-- Sensor List -->
+        <CollectionView ItemsSource="{Binding Sensors}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame BorderColor="Gray" Padding="10" Margin="5">
+                        <VerticalStackLayout>
+                            <Label Text="{Binding Model}" FontAttributes="Bold"/>
+                            <Label Text="{Binding Location}" FontAttributes="Italic"/>
+                            <Button Text="Delete"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:SensorViewModel}}, Path=RemoveSensorCommand}"
+                                    CommandParameter="{Binding .}"
+                                    BackgroundColor="IndianRed"
+                                    TextColor="White"/>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </VerticalStackLayout>
+</ContentPage>
