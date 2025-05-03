@@ -30,12 +30,15 @@ public static class MauiProgram
 	builder.Services.AddTransient<WaterQualityViewModel>();
 	builder.Services.AddTransient<WeatherViewModel>();
 	builder.Services.AddTransient<UserViewModel>();
+	builder.Services.AddTransient<BackupViewModel>();
+	builder.Services.AddSingleton<IBackupService, FileSystemBackupService>();
 
 	// Register Pages
 	builder.Services.AddSingleton<SensorPage>();
 	builder.Services.AddTransient<WaterQualityPage>();
 	builder.Services.AddTransient<WeatherPage>();
 	builder.Services.AddTransient<UserPage>();
+	builder.Services.AddTransient<BackupPage>();
 
 #if DEBUG
 		builder.Logging.AddDebug();
