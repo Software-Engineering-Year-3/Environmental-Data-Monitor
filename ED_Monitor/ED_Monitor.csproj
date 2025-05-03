@@ -91,10 +91,6 @@
     <None Update="appsettings.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-</ItemGroup>	
-	
-<ItemGroup>
-  <Folder Include="HTML doc NF\" />
 </ItemGroup>
 
 </Project>
