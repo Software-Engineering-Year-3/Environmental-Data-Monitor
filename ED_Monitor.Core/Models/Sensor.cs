@@ -1,6 +1,6 @@
 using System;
 
-namespace ED_Monitor.Models
+namespace ED_Monitor.Core.Models
 {
     public class Sensor
     {

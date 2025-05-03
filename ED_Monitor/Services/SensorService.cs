@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ED_Monitor.Interfaces;
-using ED_Monitor.Models;
+using ED_Monitor.Core.Interfaces;
+using ED_Monitor.Core.Models;
 
 namespace ED_Monitor.Services
 {
