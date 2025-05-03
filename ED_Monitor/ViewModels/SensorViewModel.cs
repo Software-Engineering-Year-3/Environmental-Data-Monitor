@@ -31,6 +31,8 @@ namespace ED_Monitor.ViewModels
         public ICommand AddSensorCommand { get; }
         public ICommand RemoveSensorCommand { get; }
 
+        public ICommand EditSensorCommand { get; }
+
         public SensorViewModel(ISensorService sensorService)
         {
             _sensorService = sensorService;
@@ -39,6 +41,7 @@ namespace ED_Monitor.ViewModels
 
             AddSensorCommand = new Command(AddSensor);
             RemoveSensorCommand = new Command<Sensor>(RemoveSensor);
+            EditSensorCommand = new Command<Sensor>(async (sensor) => await NavigateToEdit(sensor));
         }
 
         private void LoadSensors()
@@ -73,6 +76,15 @@ namespace ED_Monitor.ViewModels
             _sensorService.RemoveSensor(sensor.Id);
             Sensors.Remove(sensor);
         }
+
+        private async Task NavigateToEdit(Sensor sensor)
+{
+    if (sensor == null)
+        return;
+
+    await Shell.Current.GoToAsync(nameof(SensorDetailPage), true,
+        new Dictionary<string, object> { { "Sensor", sensor } });
+}
 
         // === INotifyPropertyChanged Boilerplate ===
         public event PropertyChangedEventHandler PropertyChanged;

@@ -2,6 +2,7 @@
 using ED_Monitor.ViewModels;
 using ED_Monitor.Services;
 using ED_Monitor.Interfaces;
+using ED_Monitor.Views;
 
 namespace ED_Monitor;
 
@@ -25,6 +26,9 @@ public static class MauiProgram
 		// ✅ Dependency Injection setup
 		builder.Services.AddSingleton<ISensorService, SensorService>();  // Shared service
 		builder.Services.AddTransient<SensorViewModel>();               // ViewModel (new per use)
+		builder.Services.AddTransient<SensorDetailPage>();
+		builder.Services.AddTransient<SensorDetailViewModel>();
+
 
 		return builder.Build();
 	}
