@@ -1,5 +1,5 @@
-using ED_Monitor.Models;
-using ED_Monitor.ViewModels;
+using ED_Monitor.Core.Models;
+using ED_Monitor.Core.ViewModels;
 
 namespace ED_Monitor.Views;
 

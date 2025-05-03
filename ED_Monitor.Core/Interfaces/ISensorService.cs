@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using ED_Monitor.Models;
 
-namespace ED_Monitor.Interfaces
+namespace ED_Monitor.Core.Interfaces
 {
     public interface ISensorService
     {

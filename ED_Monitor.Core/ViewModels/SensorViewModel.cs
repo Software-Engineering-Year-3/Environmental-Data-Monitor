@@ -2,11 +2,11 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using ED_Monitor.Models;
-using ED_Monitor.Interfaces;
+using ED_Monitor.Core.Models;
+using ED_Monitor.Core.Interfaces;
 using ED_Monitor.Services;
 
-namespace ED_Monitor.ViewModels
+namespace ED_Monitor.Core.ViewModels
 {
     public class SensorViewModel : INotifyPropertyChanged
     {
