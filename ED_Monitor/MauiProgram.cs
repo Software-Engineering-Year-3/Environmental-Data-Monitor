@@ -32,7 +32,8 @@ public static class MauiProgram
 	builder.Services.AddTransient<UserViewModel>();
 	builder.Services.AddTransient<ReportViewModel>();
 	builder.Services.AddTransient<MaintenanceViewModel>();
-	builder.Services.AddSingleton<IReportService, ReportService>();
+	builder.Services.AddScoped<ITrendDataService, TrendDataService>();
+	builder.Services.AddScoped<IReportPdfGenerator, ReportPdfGenerator>();
 	builder.Services.AddSingleton<IMaintenanceService, InMemoryMaintenanceService>();
 	builder.Services.AddTransient<MaintenanceViewModel>();
 	
