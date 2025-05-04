@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
+using ED_Monitor.Data;
 
 
-
-namespace ED_Monitor;
+namespace ED_Monitor.Pages;
 
 public static class MauiProgram
 {
@@ -19,26 +19,41 @@ public static class MauiProgram
 			});
 
 
-	builder.Services.AddDbContext();
+	// sbuilder.Services.AddDatabaseService();
 
 // to be uncommented when they can properly fit in code 
-	builder.Services.AddDbContext<ED_MonitorDbContext>(options => options.UseSqlServer(connectionString));
-	builder.Services.AddDbContext<ED_MonitorDbContext>(options => options.UseSqlServer(connectionString));
+	// builder.Services.AddDbContext<DatabaseService>(options => options.UseSqlServer(connectionString));
+	// builder.Services.AddDbContext<DatabaseService>(options => options.UseSqlServer(connectionString));
 
 	// Register ViewModels
 	builder.Services.AddSingleton<SensorViewModel>();
+    builder.Services.AddTransient<AirQualityViewModel>();
 	builder.Services.AddTransient<WaterQualityViewModel>();
 	builder.Services.AddTransient<WeatherViewModel>();
 	builder.Services.AddTransient<UserViewModel>();
 	builder.Services.AddTransient<BackupViewModel>();
+	builder.Services.AddTransient<ReportViewModel>();
+	builder.Services.AddTransient<MaintenanceViewModel>();
+	
+	// Register Services
+	builder.Services.AddScoped<ITrendDataService, TrendDataService>();
+	builder.Services.AddScoped<IReportPdfGenerator, ReportPdfGenerator>();
+	builder.Services.AddSingleton<IMaintenanceService, InMemoryMaintenanceService>();
+    builder.Services.AddSingleton<INotificationService, LocalNotificationService>();
 	builder.Services.AddSingleton<IBackupService, FileSystemBackupService>();
+	
 
 	// Register Pages
-	builder.Services.AddSingleton<SensorPage>();
+	builder.Services.AddSingleton<IDataService>();
+	builder.Services.AddSingleton<SensorMapPage>();
 	builder.Services.AddTransient<WaterQualityPage>();
 	builder.Services.AddTransient<WeatherPage>();
+	builder.Services.AddTransient<ReportPage>();
+	builder.Services.AddTransient<MaintenancePage>();
+	builder.Services.AddTransient<SignUpPage>();
 	builder.Services.AddTransient<UserPage>();
 	builder.Services.AddTransient<BackupPage>();
+
 
 #if DEBUG
 		builder.Logging.AddDebug();

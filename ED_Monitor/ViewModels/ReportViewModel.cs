@@ -1,3 +1,4 @@
+// ViewModels/ReportViewModel.cs
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -5,7 +6,6 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using LiveChartsCore;
-using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Maui;
 using Microsoft.Maui.Storage;
 using Microsoft.Maui.ApplicationModel.DataTransfer;
@@ -15,98 +15,119 @@ using ED_Monitor.Services;
 namespace ED_Monitor.ViewModels
 {
     /// <summary>
-    /// ViewModel for generating and exporting environmental trend reports
+    /// ViewModel for generating and exporting environmental trend reports.
+    /// Now follows SRP by using:
+    ///  • ITrendDataService  – for data retrieval,
+    ///  • IReportPdfGenerator – for PDF creation.
     /// </summary>
     public partial class ReportViewModel : ObservableObject
     {
-        private readonly IReportService _reportService;
+        private readonly ITrendDataService   _trendDataService;
+        private readonly IReportPdfGenerator _pdfGenerator;
 
         /// <summary>
-        /// Collection of chart series to be displayed in the report
+        /// Collection of chart series to be displayed in the report.
         /// </summary>
         [ObservableProperty]
         private ObservableCollection<ISeries> chartSeries = new();
 
         /// <summary>
-        /// Indicates whether the report generation is in progress
+        /// Indicates whether an operation is in progress.
         /// </summary>
         [ObservableProperty]
         private bool isBusy;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReportViewModel"/> class.
+        /// Constructor takes exactly two services, each with a single responsibility.
         /// </summary>
-        /// <param name="reportService"></param>
-        public ReportViewModel(IReportService reportService)
+        public ReportViewModel(
+            ITrendDataService trendDataService,
+            IReportPdfGenerator pdfGenerator)
         {
-            _reportService = reportService;
+            _trendDataService = trendDataService;
+            _pdfGenerator     = pdfGenerator;
         }
+
         /// <summary>
-        /// Generates a report by fetching trend data and populating the chart series
+        /// Fetches trend data and populates the chart series.
         /// </summary>
-        /// <returns></returns>
         [RelayCommand]
         async Task GenerateReportAsync()
         {
-            if (IsBusy) 
-            {
-                // If a report is already being generated, do not proceed
-                return;
-            }
-        
+            if (IsBusy) return;
             try
             {
                 IsBusy = true;
-                var data = await _reportService.FetchTrendDataAsync(TimeSpan.FromDays(30));
 
+                // 1) Retrieve aggregated trend data (e.g. last 30 days)
+                var data = await _trendDataService.GetTrendDataAsync(TimeSpan.FromDays(30));
+
+                // 2) Map into chart series
                 ChartSeries.Clear();
                 ChartSeries.Add(new LineSeries<double>
                 {
-                    Name = "Air Quality",
+                    Name   = "Air Quality",
                     Values = data.AirQualityLevels
                 });
                 ChartSeries.Add(new LineSeries<double>
                 {
-                    Name = "Water pH",
+                    Name   = "Water pH",
                     Values = data.WaterPhLevels
                 });
                 ChartSeries.Add(new LineSeries<double>
                 {
-                    Name = "Temperature",
+                    Name   = "Temperature",
                     Values = data.Temperatures
                 });
             }
             catch (Exception ex)
             {
-                // Handle exception and shows an error message to the user
-                Console.WriteLine($"Error generating report: {ex.Message}");
+                // TODO: replace with user-facing error dialog
+                Console.WriteLine($"[ReportViewModel] GenerateReportAsync failed: {ex}");
             }
-            finally 
-            { 
-                // Reset the IsBusy flag to allow further actions
-                IsBusy = false; 
+            finally
+            {
+                IsBusy = false;
             }
         }
 
+        /// <summary>
+        /// Generates a PDF from the latest trend data and invokes the share dialog.
+        /// </summary>
         [RelayCommand]
         async Task ExportReportAsync()
         {
-            // Check if the report is already being generated or exported
-            var data     = await _reportService.FetchTrendDataAsync(TimeSpan.FromDays(30));
-            var pdfBytes = await _reportService.BuildPdfReportAsync(data);
-
-            // save the PDF to a temporary file
-            // Note: FileSystem.CacheDirectory is used for temporary storage. You may want to use a different location based on your requirements.
-            var file = Path.Combine(FileSystem.CacheDirectory, "EnvironmentalTrends.pdf");
-            File.WriteAllBytes(file, pdfBytes);
-
-            // share the PDF file using the platform's sharing capabilities
-            await Share.RequestAsync(new ShareFileRequest
+            if (IsBusy) return;
+            try
             {
-                // Set the title of the share dialog
-                Title = "Environmental Trends Report",
-                File  = new ShareFile(file)
-            });
+                IsBusy = true;
+
+                // 1) Get the same trend data
+                var data = await _trendDataService.GetTrendDataAsync(TimeSpan.FromDays(30));
+
+                // 2) Generate PDF bytes
+                var pdfBytes = await _pdfGenerator.GeneratePdfAsync(data);
+
+                // 3) Save to a temporary file
+                var filePath = Path.Combine(FileSystem.CacheDirectory, "EnvironmentalTrends.pdf");
+                File.WriteAllBytes(filePath, pdfBytes);
+
+                // 4) Invoke platform share sheet
+                await Share.RequestAsync(new ShareFileRequest
+                {
+                    Title = "Environmental Trends Report",
+                    File  = new ShareFile(filePath)
+                });
+            }
+            catch (Exception ex)
+            {
+                // TODO: replace with user-facing error dialog
+                Console.WriteLine($"[ReportViewModel] ExportReportAsync failed: {ex}");
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
     }
 }

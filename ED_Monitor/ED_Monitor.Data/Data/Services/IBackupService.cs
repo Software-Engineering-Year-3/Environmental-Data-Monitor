@@ -5,7 +5,7 @@ namespace ED_Monitor.Services
     public interface IBackupService
     {
         /// <summary>
-        /// Creates a backup, returns a record you can store or show in UI.
+        /// Creates a backup of the database and returns a record of the backup.
         /// </summary>
         Task<BackupRecord> CreateBackupAsync();
 
@@ -15,7 +15,7 @@ namespace ED_Monitor.Services
         Task RestoreBackupAsync(string filePath);
 
         /// <summary>
-        /// Returns all past backups (e.g. by scanning a folder or DB table).
+        /// Retrieves a list of backup records.
         /// </summary>
         Task<List<BackupRecord>> GetBackupsAsync();
     }

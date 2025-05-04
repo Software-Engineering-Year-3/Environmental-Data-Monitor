@@ -5,10 +5,7 @@ using Microsoft.EntityFrameworkCore;
 namespace ED_Monitor.Services
 {
     /// <summary>
-    /// Simple proof-of-concept: 
-    /// • Generates EF Core SQL-create scripts as "backups" 
-    /// • Saves them in a local folder
-    /// Later you’ll replace this with a true Azure SQL export.
+    /// Backup service that stores backups in the file system.
     /// </summary>
     public class FileSystemBackupService : IBackupService
     {
@@ -39,11 +36,10 @@ namespace ED_Monitor.Services
 
         public async Task<BackupRecord> CreateBackupAsync()
         {
-            // 1) Generate SQL script of current schema & data
-            //    TODO (Azure SQL): call Azure Management API to export bacpac
+            // Generate SQL script of current schema & data
             var script = _db.Database.GenerateCreateScript();
 
-            // 2) Write to file
+            // Write to file
             var timestamp = DateTime.UtcNow.ToString("yyyyMMdd_HHmmss");
             var filePath  = Path.Combine(_backupDir, $"backup_{timestamp}.sql");
             await File.WriteAllTextAsync(filePath, script);
@@ -58,12 +54,10 @@ namespace ED_Monitor.Services
 
         public async Task RestoreBackupAsync(string filePath)
         {
-            // 1) Read script
+            // Read script
             var script = await File.ReadAllTextAsync(filePath);
 
             // 2) Execute against the Azure SQL DB
-            //    TODO (Azure SQL): for safety, you might drop and recreate—
-            //    here we just run whatever’s in the script.
             var conn = _db.Database.GetDbConnection();
             await conn.OpenAsync();
             using var cmd = conn.CreateCommand();

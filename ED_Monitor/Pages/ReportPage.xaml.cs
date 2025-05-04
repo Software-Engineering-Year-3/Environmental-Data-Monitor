@@ -1,13 +1,13 @@
+using ED_Monitor.ViewModels;
 using Microsoft.Maui.Controls;
-using ED_Monitor.Data;
-using ED_Monitor.Pages;
 
-namespace ED_Monitor.Pages;
+namespace ED_Monitor.Views;
 
 public partial class ReportPage : ContentPage
 {
-	public ReportPage()
-	{
-		InitializeComponent();
-	}
+    public ReportPage(ReportViewModel viewModel)
+    {
+        InitializeComponent();
+        BindingContext = viewModel;
+    }
 }
