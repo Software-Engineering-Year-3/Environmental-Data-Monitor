@@ -2,6 +2,7 @@
 using ED_Monitor.ViewModels;
 using ED_Monitor.Core.Services;
 using ED_Monitor.Core.Interfaces;
+using ED_Monitor.Services;
 using ED_Monitor.Views;
 
 namespace ED_Monitor;
@@ -28,6 +29,10 @@ public static class MauiProgram
 		builder.Services.AddTransient<SensorViewModel>();               // ViewModel (new per use)
 		builder.Services.AddTransient<SensorDetailPage>();
 		builder.Services.AddTransient<SensorDetailViewModel>();
+		builder.Services.AddSingleton<ISensorFirmwareService, SensorFirmwareService>();
+		builder.Services.AddTransient<SensorFirmwareUpdateViewModel>();
+		builder.Services.AddTransient<SensorFirmwareUpdatePage>();
+
 
 
 		return builder.Build();

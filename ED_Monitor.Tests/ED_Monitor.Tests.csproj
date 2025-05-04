@@ -20,8 +20,8 @@
   
 
   <ItemGroup>
-    <ProjectReference Include="..\ED_Monitor\ED_Monitor.csproj" />
-    <ProjectReference Include="..\ED_Monitor\ED_Monitor.Core.csproj" />
+    
+    <ProjectReference Include="..\ED_Monitor.Core\ED_Monitor.Core.csproj" />
   </ItemGroup>
 
 </Project>

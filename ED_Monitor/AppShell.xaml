@@ -17,6 +17,14 @@
     <ShellContent 
         Route="SensorDetailPage" 
         ContentTemplate="{DataTemplate views:SensorDetailPage}" />
+
+    
+
+    <ShellContent 
+        Route="SensorFirmwareUpdatePage" 
+        ContentTemplate="{DataTemplate views:SensorFirmwareUpdatePage}" />
+
+
      
 
 </Shell>
