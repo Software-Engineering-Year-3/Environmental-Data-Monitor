@@ -1,7 +1,5 @@
 using System.Collections.ObjectModel;
-using System.Globalization;
 using ED_Monitor.Data.Models;
-using ED_Monitor.Database;
 using Microcharts;
 using SkiaSharp;
 namespace ED_Monitor;
@@ -31,6 +29,12 @@ public partial class ViewData : ContentPage
 {	
 	// Unfortunately coded on a nonexisting database - this is a mockup of the data
     private readonly IDataService _dataService;
+
+// observable collections for data binding to list views in xaml
+	public ObservableCollection<AirQualityReading> AirQualityReadings { get; set; } = new ObservableCollection<AirQualityReading>();
+	public ObservableCollection<WaterQualityData> WaterQualityReadings { get; set; } = new ObservableCollection<WaterQualityData>(); 
+	public ObservableCollection<WeatherData> WeatherQualityReadings { get; set; } = new ObservableCollection<WeatherData>();
+
 	/// <summary>
 	/// New instance of the dashboard page
 	/// </summary>
@@ -39,6 +43,8 @@ public partial class ViewData : ContentPage
     {
         InitializeComponent();
         _dataService = dataService;
+		// Set binding context for data binding 
+		BindingContext = this;
         LoadDashboardData();
     }
 	/// <summary>
@@ -53,17 +59,80 @@ public partial class ViewData : ContentPage
         DateTime startDate = endDate.AddMonths(-1);
 
 		// Get data
-        var AirData = await _dataService.GetAirQualityData(startDate, endDate);
-        var WaterData = await _dataService.GetWaterQualityData(startDate, endDate);
-        var WeatherData = await _dataService.GetWeatherData(startDate, endDate);
+        var airData = await _dataService.GetAirQualityData(startDate, endDate);
+		foreach (var reading in airData)
+		{
+			AirQualityReadings.Add(reading);
+		}
+
+        var waterData = await _dataService.GetWaterQualityData(startDate, endDate);
+		foreach (var reading in waterData)
+		{
+			WaterQualityReadings.Add(reading);
+		}
+
+        var weatherData = await _dataService.GetWeatherData(startDate, endDate);
+		foreach (var reading in weatherData)
+		{
+			WeatherQualityReadings.Add(reading);
+		}
 
 		// Same thing for the charts
-        GenerateAirQualityChart(AirData);
-        GenerateWaterQualityChart(WaterData);
-        GenerateWeatherChart(WeatherData);
+        GenerateAirQualityChart(AirQualityReadings);
+        GenerateWaterQualityChart(WaterQualityReadings);
+        GenerateWeatherChart(WeatherQualityReadings);
     }
 
+	// Reusable method to validate data - used for all data types
+	private void ValidateCommand<Command>(Command reading, string user, string reason) where Command : IQualityReading
+	{
+		// Check if the data is valid and exit if it is already
+		if (reading.Status == DataStatus.Valid)
+		{
+			return;
+		}
+		// Set the status of the entry to valid and add to log
+		reading.Status = DataStatus.Valid;
+		// Add a logfor teh validation action
+		reading.Logs.Add(new DataLog
+		{
+			TimeStamp = DateTime.Now,
+			Action = "Validated",
+			User = user,
+			Reason = reason
+		});
+	
+	}
 
+	// Reusable method to flag data 
+	private void FlagCommand<Command>(Command reading, string user, string reason) where Command : IQualityReading
+	{
+		reading.Status = DataStatus.Flagged;
+		reading.Logs.Add(new DataLog
+		{
+			TimeStamp = DateTime.Now,
+			Action = "Flagged",
+			User = user,
+			Reason = reason
+		});
+	}
+
+	// Commands for water quality validation/flagging
+	public Command<AirQualityReading> ValidateAirQualityCommand => new Command<AirQualityReading>(reading =>
+		ValidateCommand(reading, "User", "Validated"));
+	public Command<AirQualityReading> FlagAirQualityCommand => new Command<AirQualityReading>(reading =>
+		FlagCommand(reading, "User", "Flagged"));
+
+	// Same thing for water and weather 
+	public Command<WaterQualityData> ValidateWaterQualityCommand => new Command<WaterQualityData>(reading =>
+		ValidateCommand(reading, "User", "Validated"));
+	public Command<WaterQualityData> FlagWaterQualityCommand => new Command<WaterQualityData>(reading =>
+		FlagCommand(reading, "User", "Flagged"));
+	
+	public Command<WeatherData> ValidateWeatherQualityCommand => new Command<WeatherData>(reading =>
+		ValidateCommand(reading, "User", "Validated"));
+	public Command<WeatherData> FlagWeatherQualityCommand => new Command<WeatherData>(reading =>
+		FlagCommand(reading, "User", "Flagged"));
 
     /// <summary>
     /// Generates a line chart for the given data
@@ -261,12 +330,6 @@ public partial class ViewData : ContentPage
 				"#009688" // light Blue
 			));
 		}
-// For the sake of the code - and mine - i have used a fake instance of a database in order to be able to create the code for the user stpry 
-public interface IDataService
-{
-    Task<ObservableCollection<AirQualityReading>> GetAirQualityData(DateTime startDate, DateTime endDate);
-    Task<ObservableCollection<WaterQualityData>> GetWaterQualityData(DateTime startDate, DateTime endDate);
-    Task<ObservableCollection<WeatherData>> GetWeatherData(DateTime startDate, DateTime endDate);
-}
+
 }
 

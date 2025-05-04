@@ -3,28 +3,72 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ED_Monitor.ViewData"
              Title="ViewData">
+    <ContentPage.Resources>
+        <!--Define a reusable template for better consistency and less redundancy-->
+
+        <!--Data Template specifies how each item is displayed in the list view-->
+        <DataTemplate x:Key="QualityDataTemplate">
+            <!--view cell represnets a single item in the list view-->
+            <ViewCell>
+                <!--Horizontally arranges elelmets of each item-->
+                <StackLayout Orientation="Horizontal" Padding="10">
+                    <Label Text="{Binding Site_Name}" VerticalOptions="Center" FontSize="Medium" TextColor="Black"/>
+                    <Label Text="{Binding Status}" FontSize="Small" FontAttributes="Bold"/>
+                    <!--Bind action to the functions in the xaml.cs -->
+                    <Button Text="Validate" Command="{Binding ValidateCommand}" CommandParameter="{Binding .}" FontSize="Small" TextColor="Black"/>
+                    <Button Text="Flag" Command="{Binding FlagCommand}" CommandParameter="{Binding .}" FontSize="Small" TextColor="Black"/>
+                </StackLayout>
+            </ViewCell>
+        </DataTemplate>
+    </ContentPage.Resources>
+
     <ScrollView>
         <!-- Ensure it's scrollable even if it is longer than the page and it's layed vertically-->
         <VerticalStackLayout Padding="20">
-            <!--Keeping the labels style consistent-->
+            <!--Keeping the style consistent-->
 
             <!--Air Quality section-->
             <Label Text="Air Quality Data"
                 FontSize="20" FontAttributes="Bold" HorizontalOptions="Center"/>
-            <StackLayout x:Name="AirQualityView" HeightRequest="300" 
-                BackgroundColor="LightGrey"/>
+                <!--AirQualityView is for charts-->
+            <StackLayout x:Name="AirQualityView" HeightRequest="300" BackgroundColor="LightGrey"/>
             
+            <!-- ListView to display air data reading-->
+            <ListView x:Name="AirQualityListView" ItemsSource=" {Binding AirQualityReadings}"
+                      HeightRequest="300" BackgroundColor="LightGrey"     
+                      ItemTemplate="{StaticResource QualityDataTemplate}" />           
+
             <!--Water Quality section-->
             <Label Text="Water Quality Data"
                 FontSize="20" FontAttributes="Bold" HorizontalOptions="Center"/>
-            <StackLayout x:Name="WaterQualityView" HeightRequest="300"
-                BackgroundColor="LightGrey"/>
-            
+            <StackLayout x:Name="WaterQualityView" HeightRequest="300" BackgroundColor="LightGrey"/>
+             <!-- ListView to display water data reading-->
+            <ListView x:Name="WaterQualityListView" ItemsSource=" {Binding WaterQualityReadings}"
+                      HeightRequest="300" BackgroundColor="LightGrey"
+                      ItemTemplate="{StaticResource QualityDataTemplate}" />
+
             <!--Weather Quality section-->
             <Label Text="Weather Quality Data"
                 FontSize="20" FontAttributes="Bold" HorizontalOptions="Center"/>
-            <StackLayout x:Name="WeatherQualityView" HeightRequest="300"
-                BackgroundColor="LightGrey"/>
+            <StackLayout x:Name="WeatherQualityView" HeightRequest="300" BackgroundColor="LightGrey"/>
+             <!-- ListView to display weather data reading-->
+            <ListView x:Name="WeatherQualityListView" ItemsSource=" {Binding WeatherQualityReadings}"
+                      HeightRequest="300" BackgroundColor="LightGrey"
+                      ItemTemplate="{StaticResource QualityDataTemplate}" />
+
+
+            <!--Section for log display-->
+            <Label Text="Log Display"
+                FontSize="20" FontAttributes="Bold" HorizontalOptions="Center"/>
+            <!--ListView to display logs for weather readings-->
+            <ListView x:Name="LogListView" ItemsSource="{Binding SelectedReading.Logs}"
+                      HeightRequest="300" BackgroundColor="LightGrey">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding Action}" Detail="{Binding Timestamp}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </VerticalStackLayout>
     </ScrollView>       
 </ContentPage>
