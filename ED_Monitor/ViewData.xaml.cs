@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using ED_Monitor.Data.Models;
+using ED_Monitor.Data.Services;
 using Microcharts;
 using SkiaSharp;
 namespace ED_Monitor;
@@ -9,26 +10,13 @@ namespace ED_Monitor;
 ///  And class to define a label to render text for mesage dispaly
 /// </summary>
  
-public class LabelDrawable : IDrawable
-{
-    private readonly string _text;
-
-    public LabelDrawable(string text)
-    {
-        _text = text;
-    }
-
-    public void Draw(ICanvas canvas, RectF dirtyRect)
-    {
-        canvas.FontColor = Colors.Black;
-        canvas.FontSize = 16;
-        canvas.DrawString(_text, dirtyRect.Center.X, dirtyRect.Center.Y, HorizontalAlignment.Center);
-    }
-}
 public partial class ViewData : ContentPage
 {	
 	// Unfortunately coded on a nonexisting database - this is a mockup of the data
     private readonly IDataService _dataService;
+	private readonly AirQualityService _airQualityService;
+	private readonly WaterQualityService _waterQualityService;
+	private readonly WeatherQualityService _weatherQualityService;
 
 // observable collections for data binding to list views in xaml
 	public ObservableCollection<AirQualityReading> AirQualityReadings { get; set; } = new ObservableCollection<AirQualityReading>();
@@ -39,12 +27,16 @@ public partial class ViewData : ContentPage
 	/// New instance of the dashboard page
 	/// </summary>
 	/// <param name="dataService">The data service used to fetch the data necessary</param>
-    public ViewData(IDataService dataService)
+    public ViewData(IDataService dataService, AirQualityService airQualityService, WaterQualityService waterQualityService, WeatherQualityService weatherQualityService)
     {
         InitializeComponent();
         _dataService = dataService;
+		_airQualityService = airQualityService;
+    	_waterQualityService = waterQualityService;
+    	_weatherQualityService = weatherQualityService;
 		// Set binding context for data binding 
 		BindingContext = this;
+		
         LoadDashboardData();
     }
 	/// <summary>
@@ -331,5 +323,21 @@ public partial class ViewData : ContentPage
 			));
 		}
 
+public class LabelDrawable : IDrawable
+{
+    private readonly string _text;
+
+    public LabelDrawable(string text)
+    {
+        _text = text;
+    }
+
+    public void Draw(ICanvas canvas, RectF dirtyRect)
+    {
+        canvas.FontColor = Colors.Black;
+        canvas.FontSize = 16;
+        canvas.DrawString(_text, dirtyRect.Center.X, dirtyRect.Center.Y, HorizontalAlignment.Center);
+    }
+}
 }
 

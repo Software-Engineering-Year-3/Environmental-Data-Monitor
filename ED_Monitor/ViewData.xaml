@@ -65,7 +65,14 @@
                       HeightRequest="300" BackgroundColor="LightGrey">
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <TextCell Text="{Binding Action}" Detail="{Binding Timestamp}" />
+                        <ViewCell>
+                            <StackLayout Orientation="Vertical" Padding="10">
+                                <Label Text="{Binding Action}" />
+                                <Label Text="{Binding User}" />
+                                <Label  Text="{Binding Reason}"/>
+                                <Label Text="{Binding Timestamp}" />
+                            </StackLayout>
+                        </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
