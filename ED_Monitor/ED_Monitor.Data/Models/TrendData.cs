@@ -1,4 +1,3 @@
-// Models/TrendData.cs
 namespace ED_Monitor.Models;
 
 public class TrendData
