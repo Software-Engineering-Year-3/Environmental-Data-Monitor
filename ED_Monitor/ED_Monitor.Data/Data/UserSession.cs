@@ -1,6 +1,6 @@
 namespace ED_Monitor.Data
 {
-    public static class UserSession
+    public class UserSession
     {
         public static string Name { get; set; } = string.Empty;
         public static string Email { get; set; } = string.Empty;

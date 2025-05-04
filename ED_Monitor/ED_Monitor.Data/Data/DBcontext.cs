@@ -1,16 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
+using ED_Monitor.Data;
 using ED_Monitor.Data.Models;
 
+namespace ED_Monitor.Data;
 
-namespace ED_Monitor.Data.Services;
-
-public class DatabaseService : EDMDatabse
+public class DatabaseService : DbContext
 {
 
-    public ED_MonitorDbContext() { }
-    public ED_MonitorDbContext(DbContextOptions<ED_MonitorDbContext> options) : base(options) { }
+    public DatabaseService() { }
+    public DatabaseService(DbContextOptions<DatabaseService> options) : base(options) { }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -26,13 +26,15 @@ public class DatabaseService : EDMDatabse
             config.GetConnectionString("LocalConnection"),
             m => m.MigrationsAssembly("ED_Monitor.Migrations")
             );
+        
+        return;
     }
     
-    public DbSet AirQuality { get; set; }
-    public DbSet Sensor { get; set; }
-    public DbSet WaterQuality { get; set; }
-    public DbSet Weather { get; set; }
-    public DbSet User { get; set; }
+    public DbSet<AirQualityReading> AirQuality { get; set; }
+    public DbSet<SensorData> Sensor { get; set; }
+    public DbSet<WaterQualityData> WaterQuality { get; set; }
+    public DbSet<WeatherData> Weather { get; set; }
+    public DbSet<UserSession> UserSession { get; set; }
 
 
 }
