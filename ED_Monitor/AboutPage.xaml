@@ -7,11 +7,16 @@
             <Image Source="dotnet_bot.png"
                    SemanticProperties.Description="The dot net bot waving hello!"
                    HeightRequest="64" />
+
+            <!-- Page heading -->
             <Label FontSize="22" FontAttributes="Bold" Text="Notes" VerticalOptions="End" />
+            <!-- App version -->
             <Label FontSize="22" Text="v1.0" VerticalOptions="End" />
         </HorizontalStackLayout>
 
+       <!-- Brief description of the app -->
         <Label Text="This app is written in XAML and C# with .NET MAUI." />
+        <!-- Button to learn more -->
         <Button Text="Learn more..." Clicked="LearnMore_Clicked" />
     </VerticalStackLayout>
 </ContentPage>

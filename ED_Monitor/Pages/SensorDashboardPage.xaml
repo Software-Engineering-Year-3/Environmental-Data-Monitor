@@ -1,0 +1,62 @@
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:ED_Monitor.ViewModels"
+    x:Class="ED_Monitor.Pages.SensorDashboardPage"
+    Title="Sensor Dashboard">
+
+
+<!-- Set up the ViewModel as our BindingContext -->
+  <ContentPage.BindingContext>
+    <vm:SensorDashboardViewModel />
+  </ContentPage.BindingContext>
+
+  <ScrollView>
+    <VerticalStackLayout Padding="20" Spacing="10">
+       <!-- Page title -->
+      <Label Text="Sensor Overview"
+             FontSize="24"
+             FontAttributes="Bold"
+             HorizontalOptions="Center" />
+
+ <!-- Show spinner while data is loading -->
+      <ActivityIndicator
+        IsRunning="{Binding IsBusy}"
+        IsVisible="{Binding IsBusy}"
+        HorizontalOptions="Center" />
+
+      <!-- List of sensors; displays a message if empty -->
+      <CollectionView
+        ItemsSource="{Binding Sensors}"
+        EmptyView="No sensors to display">
+        <CollectionView.ItemTemplate>
+          <DataTemplate>
+            <Frame BorderColor="Gray"
+                   CornerRadius="8"
+                   Padding="10"
+                   Margin="0,0,0,10">
+              <VerticalStackLayout Spacing="5">
+                <!-- Sensor details -->
+                <Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold" />
+                <Label Text="{Binding Type}" TextColor="Gray" />
+                <Label Text="{Binding Status}" />
+                
+
+                  <!-- Actions for each sensor -->
+                <HorizontalStackLayout Spacing="10">
+                  <Button Text="Map"
+                          Command="{Binding Source={RelativeSource AncestorType={x:Type vm:SensorDashboardViewModel}}, Path=MapCommand}"
+                          CommandParameter="{Binding .}" />
+                 <!--Report Issue button-->
+                  <Button Text="Report Issue"
+                          Command="{Binding Source={RelativeSource AncestorType={x:Type vm:SensorDashboardViewModel}}, Path=ReportCommand}"
+                          CommandParameter="{Binding .}" />
+                </HorizontalStackLayout>
+              </VerticalStackLayout>
+            </Frame>
+          </DataTemplate>
+        </CollectionView.ItemTemplate>
+      </CollectionView>
+    </VerticalStackLayout>
+  </ScrollView>
+</ContentPage>

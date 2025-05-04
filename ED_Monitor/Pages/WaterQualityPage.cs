@@ -1,52 +1,24 @@
-using System.Collections.ObjectModel;
-using System.Windows.Input;
+using ED_Monitor.ViewModels;
+using Microsoft.Maui.Controls;
 
-namespace ED_Monitor.Pages;
-
-public partial class WaterQualityPage : ContentPage
+namespace ED_Monitor.Pages
 {
-    public ObservableCollection<WaterSample> WaterData { get; set; }
-    public ICommand RefreshCommand { get; set; }
-
-    public WaterQualityPage()
+    public partial class WaterQualityPage : ContentPage
     {
-        InitializeComponent();
 
-        WaterData = new ObservableCollection<WaterSample>
+    // Quick access to the bound VM
+        WaterQualityViewModel ViewModel => (WaterQualityViewModel)BindingContext;
+
+        public WaterQualityPage()
         {
-            new WaterSample { Date = DateOnly.FromDateTime(DateTime.Today), PH = 7.2f, EC = 440, Nitrate = 2.1f, Nitrite = 0.4f },
-            new WaterSample { Date = DateOnly.FromDateTime(DateTime.Today.AddDays(-1)), PH = 6.0f, EC = 510, Nitrate = 3.2f, Nitrite = 0.6f },
-        };
+            InitializeComponent();// Initialize the XAML-defined UI
+        }
 
-        RefreshCommand = new Command(() => OnRefresh());
-        BindingContext = this;
-        WaterDataView.ItemsSource = WaterData;
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            // Trigger data load when page appears
+            _ = ViewModel.LoadAsync();
+        }
     }
-
-    private async void OnRefresh()
-    {
-        await Task.Delay(1000); // Simulated refresh
-        RefreshControl.IsRefreshing = false;
-    }
-
-    private async void OnBackClicked(object sender, EventArgs e)
-    {
-        await Shell.Current.GoToAsync("..");
-    }
-}
-
-public class WaterSample
-{
-    public DateOnly Date { get; set; }
-    public float PH { get; set; }
-    public float EC { get; set; }
-    public float Nitrate { get; set; }
-    public float Nitrite { get; set; }
-
-    public string PHStatus => PH >= 6.5f && PH <= 8.5f ? $"🟢 pH: {PH} – ✅ Normal" : $"🟠 pH: {PH} – ⚠️ Unusual";
-    public string ECStatus => EC > 500 ? $"⚠️ EC: {EC} µS/cm – High Conductivity" : $"✅ EC: {EC} µS/cm – Safe";
-    public string NitrateStatus => Nitrate > 3 ? $"🟠 Nitrate: {Nitrate} mg/L – Watch" : $"🟢 Nitrate: {Nitrate} mg/L";
-    public string NitriteStatus => Nitrite > 0.5f ? $"🟠 Nitrite: {Nitrite} mg/L – Caution" : $"🟢 Nitrite: {Nitrite} mg/L";
-
-    public Color PHColor => PH >= 6.5f && PH <= 8.5f ? Colors.Green : Colors.OrangeRed;
 }

@@ -3,15 +3,65 @@
              x:Class="ED_Monitor.Pages.MainPage"
              Title="Environmental Monitor">
 
+    <!-- ScrollView so content can scroll if the screen is small -->
     <ScrollView>
         <VerticalStackLayout Padding="30" Spacing="20" VerticalOptions="Center">
-            <Label Text="🌍 Environmental Monitor" FontSize="26" FontAttributes="Bold" HorizontalOptions="Center" />
+            
+            <!-- App title with a little emoji flair -->
+            <Label Text="🌍 Environmental Monitor"
+                   FontSize="26"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
 
-            <Button Text="📊 Air Quality" Clicked="OnAirQualityClicked" BackgroundColor="#3399ff" TextColor="White" />
-            <Button Text="💧 Water Quality" Clicked="OnWaterQualityClicked" BackgroundColor="#33cc99" TextColor="White" />
-            <Button Text="⛅ Weather Conditions" Clicked="OnWeatherClicked" BackgroundColor="#ff9933" TextColor="White" />
-            <Button Text="📍 View Sensors on Map" Clicked="OnMapClicked" BackgroundColor="#673AB7" TextColor="White" />
-            <Button Text="🚪 Log Out" Clicked="OnLogoutClicked" BackgroundColor="DarkRed" TextColor="White" />
+            <!-- Button to view air quality details -->
+            <Button Text="📊 Air Quality"
+                    Clicked="OnAirQualityClicked"
+                    BackgroundColor="#3399ff"
+                    TextColor="White" />
+
+            <!-- Button to view water quality details -->
+            <Button Text="💧 Water Quality"
+                    Clicked="OnWaterQualityClicked"
+                    BackgroundColor="#33cc99"
+                    TextColor="White" />
+
+            <!-- Button to view current weather conditions -->
+            <Button Text="⛅ Weather Conditions"
+                    Clicked="OnWeatherClicked"
+                    BackgroundColor="#ff9933"
+                    TextColor="White" />
+
+            <!-- Button to open the sensor map page -->
+            <Button Text="📍 View Sensors on Map"
+                    Clicked="OnMapClicked"
+                    BackgroundColor="#673AB7"
+                    TextColor="White" />
+
+            <!-- Only visible to managers/admins – report an issue -->
+            <Button x:Name="ReportIssueButton"
+                    Text="📢 Report Issue"
+                    Clicked="OnReportIssueClicked"
+                    BackgroundColor="#FF9800"
+                    TextColor="White" />
+
+            <!-- Only visible to admins – manage users -->
+            <Button x:Name="UserManagementButton"
+                    Text="👤 User Management"
+                    Clicked="OnUserManagementClicked"
+                    BackgroundColor="#9C27B0"
+                    TextColor="White" />
+
+            <!-- Button to view a dashboard of all sensors -->
+            <Button Text="📋 View Sensor Dashboard"
+                    Clicked="OnSensorDashboardClicked"
+                    BackgroundColor="#4CAF50"
+                    TextColor="White" />
+
+            <!-- Log out button at the bottom -->
+            <Button Text="🚪 Log Out"
+                    Clicked="OnLogoutClicked"
+                    BackgroundColor="DarkRed"
+                    TextColor="White" />
 
         </VerticalStackLayout>
     </ScrollView>

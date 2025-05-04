@@ -1,6 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <application android:allowBackup="true" android:icon="@mipmap/appicon" android:roundIcon="@mipmap/appicon_round" android:supportsRtl="true"></application>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.companyname.ed_monitor">
+
+    <!-- App needs Internet access to fetch any remote data or services -->
     <uses-permission android:name="android.permission.INTERNET" />
+    
+    <!-- Check network connectivity before attempting requests -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+ 
+    <!-- Allow the map view to use precise GPS coordinates -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- Fallback to coarse location (e.g., cell tower or Wi-Fi) if GPS is unavailable -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!--  Let Android back up app Data -->
+    <application
+        android:allowBackup="true"  
+        android:icon="@mipmap/appicon"
+        android:label="ED_Monitor"
+        android:roundIcon="@mipmap/appicon_round"
+        android:supportsRtl="true"
+        android:theme="@style/Maui.SplashTheme">
+
+        <!-- Google Maps API key! -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDjjbz4nTMAnb8gvrvfpcN5VPkzfurtrPw"/>
+
+    </application>
 </manifest>

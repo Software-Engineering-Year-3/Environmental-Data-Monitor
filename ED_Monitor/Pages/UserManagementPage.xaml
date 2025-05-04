@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ED_Monitor.Pages.UserManagementPage"
+    Title="User Management">
+
+  <ScrollView>
+    <VerticalStackLayout Padding="20" Spacing="15">
+
+      <!-- Page title -->
+      <Label
+        Text="User Management"
+        FontSize="24"
+        FontAttributes="Bold"
+        HorizontalOptions="Center" />
+
+      <!-- List of users -->
+      <CollectionView
+        x:Name="UserList"
+        ItemsSource="{Binding Users}"
+        SelectionMode="None">
+
+        <CollectionView.ItemTemplate>
+          <DataTemplate>
+            <Frame BorderColor="Gray" Padding="10">
+              <VerticalStackLayout Spacing="5">
+
+                <!-- User info -->
+                <Label Text="{Binding Name}" FontAttributes="Bold" />
+                <Label Text="{Binding Email}" FontSize="12" />
+
+                <HorizontalStackLayout Spacing="10">
+                  <!-- Role picker -->
+                  <Picker
+                    Title="Role"
+                    ItemsSource="{Binding BindingContext.RoleOptions, Source={x:Reference UserList}}"
+                    SelectedItem="{Binding Role}"
+                    SelectedIndexChanged="OnRoleChanged" />
+
+                  <!-- Delete button -->
+                  <Button
+                    Text="Delete"
+                    BackgroundColor="Crimson"
+                    TextColor="White"
+                    CornerRadius="5"
+                    Clicked="OnDeleteClicked" />
+                </HorizontalStackLayout>
+
+              </VerticalStackLayout>
+            </Frame>
+          </DataTemplate>
+        </CollectionView.ItemTemplate>
+
+      </CollectionView>
+    </VerticalStackLayout>
+  </ScrollView>
+</ContentPage>

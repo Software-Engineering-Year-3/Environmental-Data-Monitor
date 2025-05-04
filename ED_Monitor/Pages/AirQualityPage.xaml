@@ -1,42 +1,51 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ED_Monitor.Pages.AirQualityPage"
-             Title="Air Quality">
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:ED_Monitor.ViewModels"
+    x:Class="ED_Monitor.Pages.AirQualityPage"
+    Title="Air Quality">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
+  <!-- Wire up the viewmodel directly in XAML -->
+  <ContentPage.BindingContext>
+    <vm:AirQualityViewModel />
+  </ContentPage.BindingContext>
 
-            <Button Text="← Back to Home"
-                    Clicked="OnBackClicked"
-                    BackgroundColor="#eeeeee"
-                    TextColor="Black"
-                    CornerRadius="10"
-                    Margin="0,0,0,10" />
+  <ScrollView>
+    <VerticalStackLayout Padding="20" Spacing="15">
 
-            <Label Text="Air Quality Overview"
-                   FontSize="24"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center" />
+       <!-- Page header -->
+      <Label Text="Air Quality Measurements"
+             FontSize="24"
+             HorizontalOptions="Center" />
 
-            <RefreshView x:Name="RefreshControl" Command="{Binding RefreshCommand}">
-                <CollectionView x:Name="AirDataView">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Frame BorderColor="LightGray" CornerRadius="8" Padding="10" Margin="5">
-                                <StackLayout Spacing="5">
-                                    <Label Text="📅 {Binding Date}" FontSize="16" />
-                                    <Label Text="{Binding NO2Emoji}" TextColor="{Binding NO2Color}" />
-                                    <Label Text="{Binding SO2Emoji}" TextColor="{Binding SO2Color}" />
-                                    <Label Text="{Binding PM25Emoji}" TextColor="{Binding PM25Color}" />
-                                    <Label Text="{Binding PM10Emoji}" TextColor="{Binding PM10Color}" />
-                                </StackLayout>
-                            </Frame>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </RefreshView>
+      <!-- Show a spinner while data is loading -->
+      <ActivityIndicator
+        IsRunning="{Binding IsLoading}"
+        IsVisible="{Binding IsLoading}"
+        HorizontalOptions="Center" />
 
-        </VerticalStackLayout>
-    </ScrollView>
+ <!-- Display each measurement or show an empty-state message -->
+      <CollectionView ItemsSource="{Binding Measurements}"
+                      EmptyView="No data available.">
+        <CollectionView.ItemTemplate>
+          <DataTemplate>
+            <Frame BorderColor="Gray"
+                   CornerRadius="5"
+                   Padding="10"
+                   Margin="5">
+              <VerticalStackLayout Spacing="5">
+                <Label Text="{Binding Date}" FontAttributes="Bold" />
+                <Label Text="{Binding Time}" />
+                <Label Text="{Binding NO2, StringFormat='NO₂: {0}'}" />
+                <Label Text="{Binding SO2, StringFormat='SO₂: {0}'}" />
+                <Label Text="{Binding PM25, StringFormat='PM2.5: {0}'}" />
+                <Label Text="{Binding PM10, StringFormat='PM10: {0}'}" />
+              </VerticalStackLayout>
+            </Frame>
+          </DataTemplate>
+        </CollectionView.ItemTemplate>
+      </CollectionView>
+    </VerticalStackLayout>
+  </ScrollView>
 </ContentPage>

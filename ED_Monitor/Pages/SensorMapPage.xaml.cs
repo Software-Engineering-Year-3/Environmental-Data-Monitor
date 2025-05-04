@@ -1,69 +1,72 @@
-using System.Reflection;
-using System.Text.Json;
+using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Maps;
 using Microsoft.Maui.Maps;
-using Microsoft.Maui.Controls;
-using ED_Monitor.Models;
+using System;
+using System.Linq;
+using ED_Monitor.Data.Services;
 
-namespace ED_Monitor.Pages;
-
-public partial class SensorMapPage : ContentPage
+namespace ED_Monitor.Pages
 {
-    public SensorMapPage()
+    [QueryProperty(nameof(Latitude), "latitude")]
+    [QueryProperty(nameof(Longitude), "longitude")]
+    [QueryProperty(nameof(SensorName), "name")]
+    public partial class SensorMapPage : ContentPage
     {
-        InitializeComponent();
-        LoadSensors();
-    }
+        // bound when you navigate with ?latitude=…&longitude=…&name=…
+        public double Latitude  { get; set; }
+        public double Longitude { get; set; }
+        public string SensorName { get; set; } = "";
 
-    private async void LoadSensors()
-    {
-        try
+        public SensorMapPage()
         {
-            var assembly = Assembly.GetExecutingAssembly();
+            InitializeComponent();
+        }
 
-            // See available embedded resources for debug
-            var resources = assembly.GetManifestResourceNames();
-            string jsonFileName = resources.FirstOrDefault(r => r.EndsWith("Mock_Sensors_Metadata.json"));
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
 
-            if (string.IsNullOrEmpty(jsonFileName))
+            // reload in-memory list
+            SensorService.LoadMockSensors();
+
+            SensorMap.Pins.Clear();
+
+            if (!string.IsNullOrWhiteSpace(SensorName))
             {
-                await DisplayAlert("Error", "Mock_Sensors_Metadata.json not found in resources.", "OK");
-                return;
+                // single-sensor mode
+                SensorMap.Pins.Add(new Pin {
+                    Label    = SensorName,
+                    Address  = "",
+                    Location = new Location(Latitude, Longitude)
+                });
+                SensorMap.MoveToRegion(MapSpan.FromCenterAndRadius(
+                    new Location(Latitude, Longitude),
+                    Distance.FromKilometers(2)
+                ));
             }
-
-            using Stream stream = assembly.GetManifestResourceStream(jsonFileName);
-            using var reader = new StreamReader(stream);
-            string json = await reader.ReadToEndAsync();
-
-            var sensors = JsonSerializer.Deserialize<List<Sensor>>(json);
-
-            if (sensors == null || sensors.Count == 0)
+            else
             {
-                await DisplayAlert("Info", "No sensors found in JSON.", "OK");
-                return;
-            }
-
-            foreach (var sensor in sensors)
-            {
-                var pin = new Pin
+                // all-sensors mode
+                foreach (var sensor in SensorService.Sensors)
                 {
-                    Location = new Location(sensor.Latitude, sensor.Longitude),
-                    Label = sensor.Name,
-                    Address = $"{sensor.Type} - {sensor.Status}"
-                };
-
-                SensorMap.Pins.Add(pin);
+                    SensorMap.Pins.Add(new Pin {
+                        Label    = sensor.Name,
+                        Address  = $"{sensor.Type} – {sensor.Status}",
+                        Location = new Location(sensor.Latitude, sensor.Longitude)
+                    });
+                }
+                var first = SensorService.Sensors.FirstOrDefault();
+                if (first != null)
+                {
+                    SensorMap.MoveToRegion(MapSpan.FromCenterAndRadius(
+                        new Location(first.Latitude, first.Longitude),
+                        Distance.FromKilometers(2)
+                    ));
+                }
             }
+        }
 
-            var first = sensors.First();
-            SensorMap.MoveToRegion(MapSpan.FromCenterAndRadius(
-                new Location(first.Latitude, first.Longitude),
-                Distance.FromKilometers(2)
-            ));
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlert("Exception", ex.ToString(), "OK");
-        }
+        private async void OnBackClicked(object sender, EventArgs e)
+            => await Shell.Current.GoToAsync("..");
     }
 }

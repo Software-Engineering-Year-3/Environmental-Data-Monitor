@@ -1,13 +1,21 @@
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:maps="clr-namespace:Microsoft.Maui.Controls.Maps;assembly=Microsoft.Maui.Controls.Maps"
-             x:Class="ED_Monitor.Pages.SensorMapPage"
-             Title="Sensor Map">
-    <Grid>
-        <maps:Map x:Name="SensorMap"
-                  MapType="Street"
-                  IsShowingUser="True"
-                  IsScrollEnabled="True"
-                  IsZoomEnabled="True" />
-    </Grid>
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+    x:Class="ED_Monitor.Pages.SensorMapPage"
+    Title="Sensor Map">
+
+ <!-- A Back button in the toolbar -->
+  <ContentPage.ToolbarItems>
+    <ToolbarItem Text="Back" Clicked="OnBackClicked" />
+  </ContentPage.ToolbarItems>
+
+  <!-- The map control showing all sensor locations -->
+  <maps:Map
+      x:Name="SensorMap"
+      MapType="Street"
+      IsShowingUser="True"
+      IsZoomEnabled="True"
+      IsScrollEnabled="True" />
 </ContentPage>

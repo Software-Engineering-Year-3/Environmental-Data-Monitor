@@ -1,44 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ED_Monitor.Pages.SignUpPage"
-             Title="Sign Up">
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="ED_Monitor.Pages.SignUpPage"
+    Title="Sign Up">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="30" Spacing="15" VerticalOptions="Center">
+  <ScrollView>
+    <VerticalStackLayout Padding="30" Spacing="15" VerticalOptions="Center">
 
-            <Label Text="Create a New Account"
-                   FontSize="24"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center" />
+      <!-- Page header -->
+      <Label
+        Text="Create a New Account"
+        FontSize="24"
+        FontAttributes="Bold"
+        HorizontalOptions="Center" />
 
-            <Entry x:Name="FullNameEntry" Placeholder="Full Name" />
-            <Entry x:Name="EmailEntry" Placeholder="Email" Keyboard="Email" />
-            <Entry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" />
-            <Entry x:Name="ConfirmPasswordEntry" Placeholder="Confirm Password" IsPassword="True" />
+      <!-- Input fields -->
+      <Entry x:Name="FullNameEntry"
+             Placeholder="Full Name" />
+      <Entry x:Name="EmailEntry"
+             Placeholder="Email"
+             Keyboard="Email" />
+      <Entry x:Name="PasswordEntry"
+             Placeholder="Password"
+             IsPassword="True" />
+      <Entry x:Name="ConfirmPasswordEntry"
+             Placeholder="Confirm Password"
+             IsPassword="True" />
 
-            <Picker x:Name="RolePicker" Title="Select Role">
-                <Picker.ItemsSource>
-                    <x:Array Type="{x:Type x:String}">
-                        <x:String>Scientist</x:String>
-                        <x:String>Manager</x:String>
-                        <x:String>Admin</x:String>
-                    </x:Array>
-                </Picker.ItemsSource>
-            </Picker>
+      <!-- Role picker -->
+      <Picker
+        x:Name="RolePicker"
+        Title="Select Role"
+        ItemsSource="{Binding RoleOptions}" />
 
-            <Button Text="Sign Up"
-                    Clicked="OnSignUpClicked"
-                    BackgroundColor="#4CAF50"
-                    TextColor="White"
-                    CornerRadius="10" />
+      <!-- Sign Up button -->
+      <Button
+        Text="Sign Up"
+        Clicked="OnSignUpClicked"
+        BackgroundColor="#4CAF50"
+        TextColor="White"
+        CornerRadius="10" />
 
-            <Button Text="Cancel"
-                    Clicked="OnCancelClicked"
-                    BackgroundColor="#E0E0E0"
-                    TextColor="Black"
-                    CornerRadius="10" />
+      <!-- Cancel button -->
+      <Button
+        Text="Cancel"
+        Clicked="OnCancelClicked"
+        BackgroundColor="#E0E0E0"
+        TextColor="Black"
+        CornerRadius="10" />
 
-        </VerticalStackLayout>
-    </ScrollView>
+    </VerticalStackLayout>
+  </ScrollView>
 </ContentPage>

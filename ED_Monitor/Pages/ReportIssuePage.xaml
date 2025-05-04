@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ED_Monitor.Pages.ReportIssuePage"
+             Title="Report Sensor Issue">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30" Spacing="20">
+            <!-- Header -->
+            <Label Text="Report an Issue"
+                   FontSize="24"
+                   FontAttributes="Bold" />
+
+            <!-- Sensor identifier -->
+            <Entry x:Name="SensorNameEntry"
+                   Placeholder="Sensor Name" />
+            
+            <!-- Details of what’s wrong -->
+            <Editor x:Name="IssueDescriptionEditor"
+                    Placeholder="Describe the issue..."
+                    AutoSize="TextChanges" />
+            
+            <!-- Optional reporter name -->
+            <Entry x:Name="ReporterEntry"
+                   Placeholder="Your Name (optional)" />
+
+            <!-- Send it off -->
+            <Button Text="Submit Report"
+                    BackgroundColor="DarkRed"
+                    TextColor="White"
+                    Clicked="OnSubmitClicked"/>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

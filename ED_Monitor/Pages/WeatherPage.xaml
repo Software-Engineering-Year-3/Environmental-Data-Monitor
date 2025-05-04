@@ -1,41 +1,42 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ED_Monitor.Pages.WeatherPage"
-             Title="Weather Conditions">
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:ED_Monitor.ViewModels"
+    x:Class="ED_Monitor.Pages.WeatherPage"
+    Title="Weather">
 
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
+<!-- Bind to the WeatherViewModel for data and commands -->
+  <ContentPage.BindingContext>
+    <vm:WeatherViewModel />
+  </ContentPage.BindingContext>
 
-            <Button Text="← Back to Home"
-                    Clicked="OnBackClicked"
-                    BackgroundColor="#eeeeee"
-                    TextColor="Black"
-                    CornerRadius="10"
-                    Margin="0,0,0,10" />
+  <!-- Allows pull-to-refresh using the ViewModel's LoadAsyncCommand -->
 
-            <Label Text="Weather Conditions"
-                   FontSize="24"
-                   FontAttributes="Bold"
-                   HorizontalOptions="Center" />
+  <RefreshView
+      Command="{Binding LoadAsyncCommand}"
+      IsRefreshing="{Binding IsBusy}"
+      VerticalOptions="FillAndExpand">
 
-            <RefreshView x:Name="RefreshControl" Command="{Binding RefreshCommand}">
-                <CollectionView x:Name="WeatherDataView">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Frame BorderColor="LightGray" CornerRadius="8" Padding="10" Margin="5">
-                                <StackLayout Spacing="5">
-                                    <Label Text="📅 {Binding Date}" FontSize="16" />
-                                    <Label Text="{Binding TempStatus}" />
-                                    <Label Text="{Binding HumidityStatus}" />
-                                    <Label Text="{Binding WindStatus}" TextColor="{Binding WindColor}" />
-                                </StackLayout>
-                            </Frame>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </RefreshView>
 
-        </VerticalStackLayout>
-    </ScrollView>
+<!-- Display each weather record in a scrollable list -->
+    <CollectionView ItemsSource="{Binding Items}">
+      <CollectionView.ItemTemplate>
+        <DataTemplate>
+          <Frame BorderColor="Gray" Padding="10" CornerRadius="5" Margin="5">
+            <VerticalStackLayout Spacing="5">
+             <!-- Show the measurement date -->
+              <Label Text="{Binding Date}" FontAttributes="Bold" />
+            <!-- Temperature description -->
+              <Label Text="{Binding TempStatus}" />
+            <!-- Humidity description -->
+              <Label Text="{Binding HumidityStatus}" />
+            <!-- Wind description (e.g., "Calm" or "Windy") -->
+              <Label Text="{Binding WindStatus}" />
+            </VerticalStackLayout>
+          </Frame>
+        </DataTemplate>
+      </CollectionView.ItemTemplate>
+    </CollectionView>
+  </RefreshView>
 </ContentPage>

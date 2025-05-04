@@ -1,12 +1,68 @@
-<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-       xmlns:pages="clr-namespace:ED_Monitor.Pages"
-       x:Class="ED_Monitor.AppShell">
-<TabBar>
-    <ShellContent Title="Login" ContentTemplate="{DataTemplate pages:LoginPage}" Route="LoginPage" />
-    <ShellContent Title="🏠 Home" ContentTemplate="{DataTemplate pages:MainPage}" Route="MainPage" />
-    <ShellContent Title="📍 Sensor Map" ContentTemplate="{DataTemplate pages:SensorMapPage}" Route="SensorMapPage" />
-    <ShellContent Title="Reports" ContentTemplate="{DataTemplate local:ReportPage}" />
+<?xml version="1.0" encoding="utf-8" ?>
+<Shell
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:pages="clr-namespace:ED_Monitor.Pages"
+    x:Class="ED_Monitor.AppShell">
 
-</TabBar>
+
+     <!-- 
+    Define the top‐level pages in our Shell navigation.
+    Each ShellContent maps a route to a page type.
+  -->
+
+  <!-- Login screen is the first route users see -->
+    <ShellContent
+        Title="Login"
+        Route="LoginPage"
+        ContentTemplate="{DataTemplate pages:LoginPage}" />
+
+
+<!-- Main dashboard after successful login -->
+    <ShellContent
+        Title="Home"
+        Route="MainPage"
+        ContentTemplate="{DataTemplate pages:MainPage}" />
+
+
+<!-- Quickly jump to the sensor map view -->
+    <ShellContent
+        Title="Sensor Map"
+        Route="SensorMapPage"
+        ContentTemplate="{DataTemplate pages:SensorMapPage}" />
+
+
+<!-- Report an issue with any sensor -->
+    <ShellContent
+        Title="Report Issue"
+        Route="ReportIssuePage"
+        ContentTemplate="{DataTemplate pages:ReportIssuePage}" />
+
+
+<!-- Admins can manage users here -->
+    <ShellContent
+        Title="Users"
+        Route="UserManagementPage"
+        ContentTemplate="{DataTemplate pages:UserManagementPage}" />
+
+
+<!-- View a summary of all sensors -->
+    <ShellContent
+        Title="Sensor Dashboard"
+        Route="SensorDashboardPage"
+        ContentTemplate="{DataTemplate pages:SensorDashboardPage}" />
+    
+<!-- Water quality readings page -->
+    <ShellContent
+        Title="Water Quality"
+        ContentTemplate="{DataTemplate pages:WaterQualityPage}"
+        Route="WaterQualityPage" />
+
+<!-- Air quality readings page -->
+    <ShellContent
+        Title="Air Quality"
+        Route="AirQualityPage"
+        ContentTemplate="{DataTemplate pages:AirQualityPage}" />
+
+      
 </Shell>
