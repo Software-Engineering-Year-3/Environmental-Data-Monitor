@@ -4,7 +4,7 @@ using System.Linq;
 using ED_Monitor.Core.Interfaces;
 using ED_Monitor.Core.Models;
 
-namespace ED_Monitor.Services
+namespace ED_Monitor.Core.Services
 {
     public class SensorService : ISensorService
     {

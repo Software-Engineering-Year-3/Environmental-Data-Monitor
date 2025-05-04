@@ -4,9 +4,10 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using ED_Monitor.Core.Models;
 using ED_Monitor.Core.Interfaces;
-using ED_Monitor.Services;
+using ED_Monitor.Views;
+using ED_Monitor.Core.Services;
 
-namespace ED_Monitor.Core.ViewModels
+namespace ED_Monitor.ViewModels
 {
     public class SensorViewModel : INotifyPropertyChanged
     {

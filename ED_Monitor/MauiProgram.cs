@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using ED_Monitor.Core.ViewModels;
-using ED_Monitor.Services;
+using ED_Monitor.ViewModels;
+using ED_Monitor.Core.Services;
 using ED_Monitor.Core.Interfaces;
 using ED_Monitor.Views;
 

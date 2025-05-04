@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using ED_Monitor.Models;
+using ED_Monitor.Core.Models;
 
 namespace ED_Monitor.Core.Interfaces
 {

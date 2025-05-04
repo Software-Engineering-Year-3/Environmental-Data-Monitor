@@ -1,6 +1,6 @@
 using System.Windows.Input;
-using ED_Monitor.Models;
-using ED_Monitor.Interfaces;
+using ED_Monitor.Core.Models;
+using ED_Monitor.Core.Interfaces;
 
 namespace ED_Monitor.ViewModels;
 
@@ -12,9 +12,9 @@ public class SensorDetailViewModel
 
     public ICommand SaveCommand { get; }
 
-    public SensorDetailViewModel(Sensor sensor)
+    public SensorDetailViewModel(Sensor sensor, ISensorService sensorService)
     {
-        _sensorService = App.Current.Services.GetService<ISensorService>();
+        _sensorService = sensorService;
         Sensor = sensor;
         SaveCommand = new Command(Save);
     }
