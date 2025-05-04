@@ -26,18 +26,21 @@ public static class MauiProgram
 	// builder.Services.AddDbContext<DatabaseService>(options => options.UseSqlServer(connectionString));
 
 	// Register ViewModels
-
 	builder.Services.AddSingleton<SensorViewModel>();
-  builder.Services.AddTransient<AirQualityViewModel>();
+    builder.Services.AddTransient<AirQualityViewModel>();
 	builder.Services.AddTransient<WaterQualityViewModel>();
 	builder.Services.AddTransient<WeatherViewModel>();
 	builder.Services.AddTransient<UserViewModel>();
 	builder.Services.AddTransient<ReportViewModel>();
 	builder.Services.AddTransient<MaintenanceViewModel>();
+	
+	// Register Services
 	builder.Services.AddScoped<ITrendDataService, TrendDataService>();
 	builder.Services.AddScoped<IReportPdfGenerator, ReportPdfGenerator>();
 	builder.Services.AddSingleton<IMaintenanceService, InMemoryMaintenanceService>();
 	builder.Services.AddTransient<MaintenanceViewModel>();
+	builder.Services.AddSingleton<IMaintenanceService, InMemoryMaintenanceService>();
+    builder.Services.AddSingleton<INotificationService, LocalNotificationService>();
 	
 
 	// Register Pages
