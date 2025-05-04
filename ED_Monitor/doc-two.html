@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environmental Data Monitor Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2, h3 {
+            color: #333; 
+        }
+        pre {
+            background: #f4f4f4; 
+            padding: 10px;
+            border: 1px solid #ddd; 
+            overflow-x: auto; 
+        }
+        code {
+            color: #c7254e; 
+            background: #f9f2f4; 
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Verify data's accuracy documentation.</h1>
+    <p>This documentation provides an overview of the code for the second issue:
+		"Verify the accuracy and integrity of collected data".</p>
+
+    <h2>Overview</h2>
+    <p>This issue is important for any users that are tasked with verifying if the data collected is 
+	accurate and integral.</p>
+
+    <h2>Key Components</h2>
+    <ul>
+        <li><strong>ViewData.xaml</strong>:The ViewData.xaml file has been slighlt modified since the previous issue.
+		It now implements a reusable QualityDataTemplate for ensuring consistent style across all the 
+		ListViews across the code, it is easily understandable due to the consistent naming in variables and methods, 
+		 to the separation in sections of the data types etc.</li>
+        <li><strong>ViewData.xaml.cs</strong>:The xaml.cs file in th is case has been expanded to include
+		methods to manually validate or flag data entries, as well as the log system to keep track of the changes  made to the data.</li>
+		<li><strong>IDataService.cs</strong>:IDataService defines an interface for fetching data from the mock
+		database implementation, it also allows for easier introduction of a real database. It only focuses on data retrival
+		keeping the interface simple and clean.</li>
+		<li><strong>IQualityReading.cs</strong>:This defines the interface for all quality reading models: it allows them to have
+		a Status property and a Logs property to track whether the data is valid and, if it has been changed, what changes have been made.</li>
+		<li><strong>DataLogs.cs</strong>:DataLogs.cs defines the structure of a singular log: it has a timestamp, a record of the action
+		performed, by who and for what reason. This was thought to ensure consistency across all the logs for all the data types.</li>
+		<li><strong>Enum.cs</strong>:This simply defines the DataStatus enumeration, it has been kept separate from the rest of 
+		the code to ensure easier modification/expansion for the enumeration fields, if necessary.</li>
+		<li><strong>Air/Water/WeatherService.cs</strong>:The service class for each data type shares the same code base, it has modified according
+		to the data type it is interacting with, this helped ensure consistency, reusability and separation of concerns, since 
+		for each data type there is a class dedicated.</li>
+    </ul>
+
+    <h2>QualityDataTemplate Structure</h2>
+    <ul>
+		<li><strong>QualityDataTemplate</strong>:Creating a base template for displaying how each item is displayed in 
+		the ListView, helpes ensure consistency and reusability.
+		It defines the orientation of the stack layout, the padding and the fields to display, such as the SiteName, 
+		the status etc. It also presents two buttons to perform the actions to validate or flag data. </li>
+	</ul>
+	
+	<h3>ValidateCommand Structure</h3>
+    <ul>
+		<li><strong>ValidateCommand</strong>:The function to validate the data first checks if the data is valid, if it is, then it does not proceed
+		with the function; otherwise, it sets the status to valid and creates a log entry for the action perfomed.</li>		
+	</ul>
+	
+	<h4>FlagCommand Structure</h4>
+	<ul>
+		<li><strong>FlagCommand</strong>:Similar enough to the previous function, this method flags a data entry when promped, 
+		also creates a log of the action perfomed, along with all the fields specified previously.</li>		
+	</ul>
+	
+</html>

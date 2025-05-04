@@ -70,21 +70,5 @@ public class AirQualityService
 			Reason = reason
 		});
 	}
-	// Method to manually flag data 
-	// Used for flagging data entries manually - if system missed 
-	public void FlagData(AirQualityReading reading, string user, string reason)
-	{
-		// Set the status of the entry to flagged and add to log 
-		reading.Status = DataStatus.Flagged;
-		reading.Logs.Add(new DataLog
-		{
-			TimeStamp = DateTime.Now,
-			Action = "Flagged",
-			User = user,
-			Reason = reason
-		});
-	}
-
-
-	
+		
 }
