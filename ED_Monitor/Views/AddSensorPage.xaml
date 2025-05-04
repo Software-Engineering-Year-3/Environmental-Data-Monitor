@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ED_Monitor.Views.AddSensorPage"
+             xmlns:vm="clr-namespace:ED_Monitor.ViewModels"
+             Title="Add Sensor">
+  
+    <ContentPage.BindingContext>
+        <vm:AddSensorViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <Label Text="Sensor Name" />
+            <Entry Placeholder="Enter sensor name" Text="{Binding SensorName}" />
+
+            <Label Text="Location" />
+            <Entry Placeholder="Enter location" Text="{Binding SensorLocation}" />
+
+            <Button Text="Save Sensor"
+                    Command="{Binding SaveCommand}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
