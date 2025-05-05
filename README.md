@@ -4,7 +4,7 @@
 ---
 
 ## Overview  
-This branch contains the implementation of three core user stories for the Environmental Data Monitor MAUI app, independent of backend database integrations. It preserves the foundational navigation and UI ,while introducing mock-first data services, unit tests, and feature pages to satisfy:
+This branch contains the implementation of three core user stories for the Environmental Data Monitor MAUI app, independent of backend database integrations. It preserves the foundational navigation and UI ,while introducing mock-first data services and feature  pages to satisfy:
 
 1. **Locate & Navigate to Sensors**  
 2. **Report Sensor Malfunctions or Anomalies**  
@@ -62,8 +62,7 @@ This branch contains the implementation of three core user stories for the Envir
   - `MockUserStore.cs`, `UserSession.cs`  
 - **Resources/**  
   - `Raw/AirQualityData.csv`, `Raw/WaterQualityData.csv` (used by CSV loaders, with fallback to mocks)  
-- **Tests/**  
-  - `ED_Monitor.Tests/` (NUnit + Moq scaffolding for sensor & dashboard tests)  
+
 
 ---
 
