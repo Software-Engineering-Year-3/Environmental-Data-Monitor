@@ -1,5 +1,5 @@
 using ED_Monitor.Models;
-using Microsoft.EntityFrameworkCore; // for future DbContext calls
+using Microsoft.EntityFrameworkCore; 
 
 namespace ED_Monitor.Services;
 
@@ -9,12 +9,16 @@ namespace ED_Monitor.Services;
 /// </summary>
 public class InMemoryMaintenanceService : IMaintenanceService
 {
-    // TODO: When using EF Core, inject your DbContext here instead:
-    // private readonly ED_MonitorDbContext _db;
-    // public InMemoryMaintenanceService(ED_MonitorDbContext db) => _db = db;
 
+    /// <summary>
+    /// In-memory store of maintenance tasks.
+    /// This will be replaced with a database context in the future.
+    /// </summary>
     readonly List<MaintenanceTask> _store = new();
 
+    /// <summary>
+    /// Get all upcoming maintenance tasks.
+    /// </summary>
     public Task<List<MaintenanceTask>> GetUpcomingAsync()
     {
         // For database
@@ -22,8 +26,8 @@ public class InMemoryMaintenanceService : IMaintenanceService
         //               .OrderBy(t => t.DueDate)
         //               .ToListAsync();
 
-        // CURRENT IN-MEMORY BEHAVIOR:
-        var list = _store
+        // Filter out tasks that are not due yet
+        var list = _store 
             .OrderBy(t => t.DueDate)
             .ToList();
         return Task.FromResult(list);
@@ -42,7 +46,7 @@ public class InMemoryMaintenanceService : IMaintenanceService
         // }
         // await _db.SaveChangesAsync();
 
-        // CURRENT IN-MEMORY BEHAVIOR:
+        // For in-memory store
         if (task.Id == Guid.Empty)
             task.Id = Guid.NewGuid();
         _store.RemoveAll(t => t.Id == task.Id);
@@ -52,7 +56,7 @@ public class InMemoryMaintenanceService : IMaintenanceService
 
     public Task DeleteAsync(Guid taskId)
     {
-        // FUTURE DB CALL:
+        // For database
         // var entity = await _db.MaintenanceTasks.FindAsync(taskId);
         // if (entity != null)
         // {
@@ -60,7 +64,7 @@ public class InMemoryMaintenanceService : IMaintenanceService
         //     await _db.SaveChangesAsync();
         // }
 
-        // CURRENT IN-MEMORY BEHAVIOR:
+        // For in-memory store
         _store.RemoveAll(t => t.Id == taskId);
         return Task.CompletedTask;
     }
