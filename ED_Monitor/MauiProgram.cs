@@ -26,18 +26,21 @@ public static class MauiProgram
 	// builder.Services.AddDbContext<DatabaseService>(options => options.UseSqlServer(connectionString));
 
 	// Register ViewModels
-
 	builder.Services.AddSingleton<SensorViewModel>();
-  builder.Services.AddTransient<AirQualityViewModel>();
+    builder.Services.AddTransient<AirQualityViewModel>();
 	builder.Services.AddTransient<WaterQualityViewModel>();
 	builder.Services.AddTransient<WeatherViewModel>();
 	builder.Services.AddTransient<UserViewModel>();
+	builder.Services.AddTransient<BackupViewModel>();
 	builder.Services.AddTransient<ReportViewModel>();
 	builder.Services.AddTransient<MaintenanceViewModel>();
+	
+	// Register Services
 	builder.Services.AddScoped<ITrendDataService, TrendDataService>();
 	builder.Services.AddScoped<IReportPdfGenerator, ReportPdfGenerator>();
 	builder.Services.AddSingleton<IMaintenanceService, InMemoryMaintenanceService>();
-	builder.Services.AddTransient<MaintenanceViewModel>();
+    builder.Services.AddSingleton<INotificationService, LocalNotificationService>();
+	builder.Services.AddSingleton<IBackupService, FileSystemBackupService>();
 	
 
 	// Register Pages
@@ -48,6 +51,9 @@ public static class MauiProgram
 	builder.Services.AddTransient<ReportPage>();
 	builder.Services.AddTransient<MaintenancePage>();
 	builder.Services.AddTransient<SignUpPage>();
+	builder.Services.AddTransient<UserPage>();
+	builder.Services.AddTransient<BackupPage>();
+
 
 #if DEBUG
 		builder.Logging.AddDebug();
