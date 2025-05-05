@@ -2,172 +2,286 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Environmental Data Monitor — Project Report</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SET09102 – Software Engineering Report</title>
   <style>
-    body { max-width: 800px; margin: 2rem auto; font-family: Arial, sans-serif; line-height: 1.6; padding: 0 1rem; }
+    body { font-family: Arial, sans-serif; line-height: 1.6; margin: 2rem; }
     h1, h2, h3 { color: #2c3e50; }
-    h1 { text-align: center; margin-bottom: 1rem; }
-    nav { text-align: center; margin-bottom: 2rem; }
-    nav a { margin: 0 .5rem; color: #3498db; text-decoration: none; }
-    nav a:hover { text-decoration: underline; }
-    section { margin-bottom: 2rem; }
-    ul { margin-left: 1.2rem; }
-    footer { text-align: center; margin-top: 3rem; font-size: .9rem; color: #666; }
+    ul { margin-left: 1.5rem; }
     pre { background: #f4f4f4; padding: 1rem; overflow-x: auto; }
+    a { color: #2980b9; text-decoration: none; }
+    a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
 
-  <h1>Environmental Data Monitor<br><small>Project Report</small></h1>
-  <p><strong>Author:</strong> Abdullah Mohammed (SET09102 – Software Engineering)<br>
-     <strong>Branch:</strong> Report-Sensors-Accounts<br>
-     <strong>Repo:</strong> <a href="https://github.com/Software-Engineering-Year-3/Environmental-Data-Monitor/tree/Report-Sensors-Accounts" target="_blank">GitHub</a>
+  <h1>40623356<br>Abdullah Mohammed<br>SET09102 – Software Engineering</h1>
+  <p><strong>Github Repo:</strong> <a href="https://github.com/Software-Engineering-Year-3/Environmental-Data-Monitor/tree/Report-Sensors-Accounts" target="_blank">https://github.com/Software-Engineering-Year-3/Environmental-Data-Monitor/tree/Report-Sensors-Accounts</a></p>
+
+  <h2>INTRODUCTION</h2>
+  <p>The Environmental Data Monitor is a cross-platform mobile application, developed with C# MAUI, designed to assist a regional environmental agency in the surveillance of air quality, water quality, and meteorological conditions. The application offers real-time sensor status on an interactive map, historical data visualisation and analysis, alerts for threshold violations, and user-role administration. It employs a simulated data methodology for environmental measurements (via in-memory services and integrated CSV resources) and a mock user store persisted in app preferences, allowing a completely operational front-end without a fully functional backend.</p>
+  <p>My own contribution concentrated on three fundamental user stories:</p>
+  <ul>
+    <li>Locate and navigate to sensors in the field for maintenance or inspection purposes</li>
+    <li>Address and report sensor malfunctions or anomalies</li>
+    <li>Manage user access and roles within the application</li>
+  </ul>
+  <p>I designed and executed the pages, view models, services, and navigation logic to fulfil these requirements, guaranteeing code quality, maintainability, and usability. I successfully handled branching on GitHub, performed peer code reviews, addressed merge conflicts, and documented UML design artefacts.</p>
+
+  <h3>Team Members & Roles</h3>
+  <ul>
+    <li><strong>Noemi</strong>
+      <ul>
+        <li>Viewed and analysed historical environmental data</li>
+        <li>Verified data accuracy and integrity</li>
+        <li>Ensured system security and data protection</li>
+      </ul>
+    </li>
+    <li><strong>Distinguish</strong>
+      <ul>
+        <li>Managed sensor accounts and configurations</li>
+        <li>Monitored operational status of sensors</li>
+        <li>Updated sensor configurations and firmware</li>
+      </ul>
+    </li>
+    <li><strong>Devan</strong>
+      <ul>
+        <li>Generated trend reports</li>
+        <li>Scheduled maintenance tasks</li>
+        <li>Oversaw data storage and backups</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h2>Critical Review of Workflow & Branching Strategy</h2>
+  <p>Our team's methodology utilised GitHub Issues for requirement specification and feature branches for development, which were merged into the development branch through pull requests following review.</p>
+  <ul>
+    <li><strong>Issue Tracking:</strong> Each user story was documented as a GitHub Issue, accompanied by acceptance criteria and references to UML diagrams located in a shared repository folder.</li>
+    <li><strong>Branch Management:</strong>
+      <ul>
+        <li><code>base-app</code>: initial MAUI Shell navigation and unpopulated pages</li>
+        <li><code>feature/*</code> branches according to each user narrative was used at first.</li>
+        <li><code>Report-Sensors-Accounts</code>: my operational branch following base-app conflicts</li>
+      </ul>
+    </li>
+    <li><strong>Pull Requests and Code Reviews:</strong> Each feature branch was integrated into the development branch by a Pull Request, necessitating a minimum of two approvals. Reviews highlighted code quality measures (e.g., cyclomatic complexity, maintainability index) and process quality (branch naming standards, commit cleanliness).</li>
+  </ul>
+  <p>This method balanced feature isolation with swift integration, facilitating both essential repairs (in development) and continuous feature advancement (in feature branches).</p>
+
+  <h2>DetaiIed Implementations & Data-Loading Journey</h2>
+  <h3>Database & SQLite Attempts</h3>
+  <p>At the start of the sprint, I sought to incorporate a SQLite backend using Entity Framework Core:</p>
+  <ul>
+    <li>Packages: <code>Microsoft.EntityFrameworkCore.SQLite</code>, <code>Microsoft.EntityFrameworkCore.Design</code>.</li>
+    <li>AppDbContext: Established <code>DbSet</code>, <code>DbSet</code>, <code>DbSet</code>, <code>DbSet</code>.</li>
+    <li>Migrations: Generated InitialCreate migration and updated the database.</li>
+  </ul>
+  <p><strong>Obstacles:</strong></p>
+  <ul>
+    <li><strong>Target Framework Mismatch:</strong> The .NET MAUI Android emulator necessitates <code>net8.0-android</code>; EF Core migrations aimed for <code>netstandard2.1</code> resulted in runtime binding issues.</li>
+    <li><strong>Missing sqlite3.dll:</strong> Android runtime couldn’t find the native library.</li>
+    <li>Despite comprehensive investigation (ABI splits, native library bundling, emulator setups), the onboard database layer continued to exhibit instability.</li>
+  </ul>
+
+  <h3>CSV File Loading</h3>
+  <p>I compiled <code>AirQualityData.csv</code> and <code>WaterQualityData.csv</code> under the <code>Resources/Raw</code> directory to offer authentic environmental data.</p>
+  <ul>
+    <li><strong>CsvHelper:</strong> Configured <code>CsvReader</code> for culture-invariant parsing.</li>
+    <li><strong>Load Flow:</strong>
+      <ol>
+        <li><code>FileSystem.OpenAppPackageFileAsync("AirQualityData.csv")</code>.</li>
+        <li>Use <code>StreamReader</code> for stream reading.</li>
+        <li>Omit the header and convert each line into <code>AirQualityData</code> instances.</li>
+        <li>Aggregate into <code>List&lt;AirQualityData&gt;</code> and return.</li>
+      </ol>
+    </li>
+  </ul>
+  <p><strong>Issues:</strong></p>
+  <ul>
+    <li>Huge Files: The CSV had hundreds of rows; processing on the UI thread caused ANRs.</li>
+    <li>Inconsistent Formatting: Missing fields and uneven line endings.</li>
+    <li>Even with try/catch around parsing, performance remained suboptimal.</li>
+  </ul>
+
+  <h3>Final Mock-First Approach</h3>
+  <p>To ensure stability, I moved entirely to mock data:</p>
+  <ul>
+    <li><strong>SensorService.LoadMockSensors()</strong>: Populates a static list of 13 sensors (air, water, and weather at sample coordinates).</li>
+    <li><strong>AirQualityViewModel.LoadAsync()</strong>: Tries CSV load, then falls back to static mock readings.</li>
+    <li><strong>WaterQualityViewModel & WeatherViewModel</strong>: Simulate 500 ms fetch delay (<code>Task.Delay(500)</code>), then append hard-coded readings.</li>
+  </ul>
+  <p>This guarantees consistent functionality across devices and allows focus on UX and user-story fulfilment.</p>
+
+  <h3>Unit Test Efforts</h3>
+  <p>I scaffolded an NUnit test project targeting .NET 8.0 and .NET 6.0:</p>
+  <ul>
+    <li>Tests written:
+      <ul>
+        <li><code>SensorServiceTests.LoadMockSensors_ShouldPopulateList()</code>.</li>
+        <li><code>SensorDashboardViewModelTests.LoadSensorsCommand_ShouldPopulateObservableCollection()</code>.</li>
+      </ul>
+    </li>
+    <li>Unresolved: The test runner couldn’t run on the MAUI runtime due to <code>net8.0-android</code> constraints; tests are preserved for future inclusion.</li>
+  </ul>
+
+  <hr>
+
+  <h2>Issue 1: Locate & Navigate to Sensors</h2>
+  <h3>Summary and Requirements</h3>
+  <p>User Story: As an Environmental Scientist, I need to identify and traverse to deployed sensors in the field for maintenance.</p>
+  <p>To fulfill this, I built <code>SensorMapPage</code> which displays pins for each operational sensor (name, type, status) loaded via <code>SensorService.LoadMockSensors()</code>. From <code>SensorDashboardPage</code>, tapping “Map” triggers <code>MapCommand</code> in the view model, routing via Shell to <code>SensorMapPage</code>. If latitude, longitude, and name parameters are passed, the map enters single-sensor mode, zooming to a two-kilometre radius around that device. The <code>OnAppearing</code> override clears and regenerates pins inside a try/catch—errors are logged to console and surfaced via alerts. I tested this on both a USB-connected Android device and emulator, verifying pinch-zoom, centering, label accuracy, and back navigation. Although future GPS integration is planned, the current mock-first approach fully satisfies the user narrative.</p>
+
+  <h3>Elaboration</h3>
+  <ul>
+    <li>Display all operational sensors on a map with pins annotated by name, type, and status.</li>
+    <li>Support single-sensor mode via query parameters to focus the map.</li>
+    <li>Trigger map navigation from SensorDashboardPage’s “Map” button.</li>
+    <li>Verified on a physical Android device (USB) and emulator.</li>
+    <li>Future: access device location or share coordinates.</li>
+  </ul>
+
+  <h3>UML Design</h3>
+  <ul>
+    <li>Component Diagram: relations among SensorService, SensorDashboardViewModel, AppShell routing, and SensorMapPage.</li>
+    <li>Class Diagram: Sensor model, SensorViewModel, attributes.</li>
+    <li>See diagrams: <a href="https://github.com/Software-Engineering-Year-3/Environmental-Data-Monitor/tree/Report-Sensors-Accounts/docs/diagrams" target="_blank">docs/diagrams</a></li>
+  </ul>
+
+  <h3>Code Implementation and Quality</h3>
+  <p><strong>Sensor Model:</strong> POCO with properties (ID, Name, Type, Latitude, Longitude, Status).</p>
+  <p><strong>SensorService (Data/Services/SensorService.cs):</strong> <code>LoadMockSensors()</code> populates static list of sample sensors; constants for base locations.</p>
+  <p><strong>SensorDashboardViewModel (ViewModels/SensorDashboardViewModel.cs):</strong> Commands:
+    <ul>
+      <li><code>LoadSensorsCommand</code>: loads sensors into <code>ObservableCollection&lt;SensorViewModel&gt;</code>.</li>
+      <li><code>MapCommand</code>: navigates to <code>SensorMapPage</code> with parameters.</li>
+      <li><code>ShowAllSensorsCommand</code>: navigates without parameters.</li>
+    </ul>
   </p>
+  <p><strong>Quality practices:</strong>
+    <ol>
+      <li>Clean naming (<code>LoadSensorsCommand</code>, <code>GoToMapAsync</code>).</li>
+      <li>Cancellation checks: <code>if (IsBusy) return;</code>.</li>
+    </ol>
+  </p>
+  <p><strong>SensorMapPage (Pages/SensorMapPage.xaml & .cs):</strong> Key <code>OnAppearing</code> logic regenerates pins and moves map. All <code>AddPin</code> calls are in try/catch. Extracted <code>const double MapRadiusKm = 2.0</code>.</p>
+  <p><strong>Manual Verification:</strong> Device and emulator tests confirmed pinch/zoom, centering, label accuracy, and navigation return.</p>
 
-  <nav>
-    <a href="#introduction">Introduction</a> |
-    <a href="#workflow">Workflow</a> |
-    <a href="#data-loading">Data Loading</a> |
-    <a href="#unit-tests">Unit Tests</a> |
-    <a href="#issue1">Issue 1</a> |
-    <a href="#issue2">Issue 2</a> |
-    <a href="#issue3">Issue 3</a> |
-    <a href="#peer-reviews">Peer Reviews</a> |
-    <a href="#ai-tools">AI Tools</a> |
-    <a href="#solo">Solo Context</a> |
-    <a href="#conclusion">Conclusion</a>
-  </nav>
+  <hr>
 
-  <section id="introduction">
-    <h2>Introduction</h2>
-    <p>The Environmental Data Monitor is a cross-platform mobile application, developed with C# MAUI, designed to assist a regional environmental agency in the surveillance of air quality, water quality, and meteorological conditions. The application offers real-time sensor status on an interactive map, historical data visualisation and analysis, alerts for threshold violations, and user-role administration. It employs a simulated data methodology for environmental measurements (via in-memory services and integrated CSV resources) and a mock user store persisted in app preferences, allowing a completely operational front-end without a fully functional backend.</p>
-    <p><strong>My Contributions:</strong></p>
-    <ul>
-      <li>Locate and navigate to sensors in the field for maintenance or inspection purposes</li>
-      <li>Address and report sensor malfunctions or anomalies</li>
-      <li>Manage user access and roles within the application</li>
-    </ul>
-    <p>I designed and executed the pages, view models, services, and navigation logic to fulfil these requirements, guaranteeing code quality, maintainability, and usability. I successfully handled branching on GitHub, performed peer code reviews, addressed merge conflicts, and documented UML design artefacts.</p>
-    <p><strong>Team Members & Roles:</strong></p>
-    <ul>
-      <li><strong>Noemi</strong> – historical data analysis, accuracy & integrity, security</li>
-      <li><strong>Distinguish</strong> – manage sensor accounts, status monitoring, firmware updates</li>
-      <li><strong>Devan</strong> – trend reports, maintenance scheduling, data storage & backup</li>
-    </ul>
-  </section>
+  <h2>Feature 2: Report Sensor Malfunctions</h2>
+  <h3>User Story:</h3>
+  <p>Report malfunctions or anomalies.</p>
+  <p>I developed <code>ReportIssuePage</code> (XAML + code-behind) to let technicians document sensor issues. The XAML includes:</p>
+  <ul>
+    <li>Header label</li>
+    <li>Read-only <code>SensorNameEntry</code> (populated via Shell navigation parameters)</li>
+    <li><code>Editor</code> for issue description</li>
+    <li>Optional <code>ReporterEntry</code></li>
+    <li>“Submit Report” button</li>
+  </ul>
+  <p>In code-behind (<code>OnSubmitClicked</code>):</p>
+  <ol>
+    <li>Placeholder for input validation (non-empty description, length constraints).</li>
+    <li><code>DisplayAlert("Success", "Issue reported.", "OK")</code> for feedback.</li>
+    <li><code>Shell.Current.GoToAsync("..")</code> to return.</li>
+  </ol>
+  <p>There is no persistent storage yet—submission is in-memory only. Manual tests on device and emulator confirmed prompt display and UI stability. This lightweight approach fulfills the second user story while remaining ready for future enhancements (e.g. database or API persistence).</p>
 
-  <section id="workflow">
-    <h2>Critical Review of Workflow &amp; Branching Strategy</h2>
-    <p>We used GitHub Issues for requirement specification and feature branches for development, merged into <code>dev</code> via pull requests with at least two approvals.</p>
-    <ul>
-      <li><strong>base-app</strong>: foundational MAUI Shell navigation (created by me).</li>
-      <li><strong>feature/*</strong>: each user story isolated into its own branch.</li>
-      <li><strong>Report-Sensors-Accounts</strong>: my solo branch after database conflicts.</li>
-    </ul>
-    <p>Peer reviews focused on naming consistency, dead code removal, dependency injection, error handling, and logging practices.</p>
-  </section>
+  <h3>Requirements</h3>
+  <ul>
+    <li>Auto-populate sensor ID from dashboard/map navigation.</li>
+    <li>Editor for description + optional reporter name.</li>
+    <li>Success notification + navigate back.</li>
+  </ul>
 
-  <section id="data-loading">
-    <h2>Detailed Implementations &amp; Data-Loading Journey</h2>
-    <h3>Database &amp; SQLite Attempts</h3>
-    <p>I attempted to use EF Core with SQLite:</p>
-    <ul>
-      <li>Packages: <code>Microsoft.EntityFrameworkCore.Sqlite</code>, <code>Design</code></li>
-      <li>Created <code>AppDbContext</code> with multiple DbSets</li>
-      <li>Generated migrations</li>
-    </ul>
-    <p><strong>Obstacles:</strong> target-framework mismatch (net8.0-android vs netstandard2.1), missing <code>sqlite3.dll</code>, runtime binding errors.</p>
-    <h3>CSV File Loading</h3>
-    <p>Placed <code>.csv</code> files under <code>Resources/Raw</code>, used CsvHelper. Encountered ANR (jank) on large files and inconsistent formatting, despite try/catch safeguards.</p>
-    <h3>Final Mock-First Approach</h3>
-    <ul>
-      <li><strong>SensorService.LoadMockSensors()</strong>: 13 sample sensors (air, water, weather).</li>
-      <li>ViewModels attempt CSV load, then fallback to static mock arrays with simulated delays.</li>
-    </ul>
-    <p>This guaranteed consistent functionality and allowed focus on UX and user stories.</p>
-  </section>
+  <h3>UML Design</h3>
+  <p>Sequence Diagram: <em>User taps “Report Issue” → ReportIssuePage → navigation back</em>.</p>
+  <p>See diagrams: <a href="https://github.com/Software-Engineering-Year-3/Environmental-Data-Monitor/tree/Report-Sensors-Accounts/docs/diagrams" target="_blank">docs/diagrams</a></p>
 
-  <section id="unit-tests">
-    <h2>Unit Test Efforts</h2>
-    <p>Created an NUnit test project targeting .NET 8.0 and 6.0:</p>
-    <ul>
-      <li><code>SensorServiceTests.LoadMockSensors_ShouldPopulateList()</code></li>
-      <li><code>SensorDashboardViewModelTests.LoadSensorsCommand_ShouldPopulateObservableCollection()</code></li>
-    </ul>
-    <p>Tests could not run on MAUI runtime (net8.0-android) due to emulator/framework constraints, but have been preserved for future integration.</p>
-  </section>
+  <h3>Review Iterations</h3>
+  <ol>
+    <li>Added input validation for <code>ReporterEntry</code> length.</li>
+    <li>Localized alert messages.</li>
+  </ol>
 
-  <section id="issue1">
-    <h2>Issue 1: Locate &amp; Navigate to Sensors</h2>
-    <p><strong>Summary:</strong> As an Environmental Scientist, I needed to locate and navigate to field sensors.</p>
-    <p><strong>Implementation:</strong> Developed <code>SensorMapPage</code> with map pins labeled with <em>Name</em>, <em>Type</em>, and <em>Status</em>. Pins sourced from <code>SensorService.LoadMockSensors()</code>. Navigation triggered via <code>MapCommand</code> in <code>SensorDashboardViewModel</code>, passing query parameters for single-sensor focus.</p>
-    <p>The page’s <code>OnAppearing</code> override populates pins, wraps <code>AddPin</code> in try/catch, zooms to a 2 km radius, and alerts on errors. Manual testing on USB-connected Android and emulator confirmed pinch-to-zoom, centring, and back navigation.</p>
-    <p><strong>Future:</strong> integrate device GPS or coordinate transmission.</p>
-  </section>
+  <hr>
 
-  <section id="issue2">
-    <h2>Issue 2: Report Sensor Malfunctions</h2>
-    <p><strong>Summary:</strong> Technicians must swiftly document sensor anomalies.</p>
-    <p>I created <code>ReportIssuePage</code> with:</p>
-    <ul>
-      <li>Read-only sensor identifier (populated via navigation parameters)</li>
-      <li><code>Editor</code> for issue description</li>
-      <li>Optional <code>Entry</code> for reporter name</li>
-      <li><code>Submit Report</code> button</li>
-    </ul>
-    <p>The <code>OnSubmitClicked</code> handler validates inputs (stub), shows a “Success” alert, and navigates back via <code>Shell.Current.GoToAsync("..")</code>. Manual testing confirmed responsiveness and correct navigation on both device and emulator. Persistent storage is deferred for future enhancements (e.g., local DB or remote API).</p>
-  </section>
+  <h2>Feature 3: Manage User Access & Roles</h2>
+  <h3>User Story:</h3>
+  <p>As an Administrator, manage user accounts and roles.</p>
+  <p>I built <code>UserManagementPage</code> backed by <code>MockUserStore</code> and <code>UserSession</code>:</p>
+  <ul>
+    <li><strong>MockUserStore:</strong> Load/save a <code>Dictionary&lt;string,MockUser&gt;</code> in preferences (JSON, try/catch fallback).</li>
+    <li><strong>UserSession:</strong> Holds current user info to toggle UI visibility.</li>
+    <li><strong>Page UI:</strong> <code>CollectionView</code> bound to <code>ObservableCollection&lt;MockUser&gt;</code>; each item shows Name, Email, Role.</li>
+    <li>Role change via <code>Picker</code> with confirmation dialog; on “Yes,” update model & save.</li>
+    <li>Deletion via “Delete” button with confirm; remove from store & collection.</li>
+  </ul>
+  <p>All I/O is wrapped in try/catch to avoid crashes; the collection updates UI automatically. Manual tests ensured persistence, correct toggling of admin features, and safe confirmation flows.</p>
+  <p>This satisfies the third user story without an external backend.</p>
 
-  <section id="issue3">
-    <h2>Issue 3: Manage User Access &amp; Roles</h2>
-    <p><strong>Summary:</strong> Administrators must oversee user accounts and roles.</p>
-    <p>I implemented <code>UserManagementPage</code> backed by <code>MockUserStore</code> and <code>UserSession</code>:</p>
-    <ul>
-      <li><code>CollectionView</code> of users (Name, Email, Role)</li>
-      <li><code>Picker</code> for role changes with confirmation dialog</li>
-      <li><code>Delete</code> button with confirmation</li>
-      <li>Persistence via JSON in Preferences with try/catch fallback</li>
-      <li><code>UserSession</code> controls visibility of admin features</li>
-    </ul>
-    <p>Manual testing ensured session persistence, correct UI updates, and safe confirmation flows.</p>
-  </section>
+  <h3>Requirements</h3>
+  <ul>
+    <li>Display users (Name, Email, Role).</li>
+    <li>Permit role edits with confirmation.</li>
+    <li>Permit deletion with confirmation.</li>
+    <li>Save changes to preferences.</li>
+  </ul>
 
-  <section id="peer-reviews">
-    <h2>Peer Code Reviews</h2>
-    <h3>Reviews I Conducted</h3>
-    <ul>
-      <li><a href="https://github.com/Software-Engineering-Year-3/Environmental-Data-Monitor/pull/35" target="_blank">Firmware Upload &amp; Unit Testing PR</a></li>
-      <li><a href="https://github.com/Software-Engineering-Year-3/Environmental-Data-Monitor/pull/31" target="_blank">Core Library Extraction &amp; Multi-Targeting</a></li>
-      <li><a href="https://github.com/Software-Engineering-Year-3/Environmental-Data-Monitor/pull/36" target="_blank">Maintenance &amp; Trend-Data Services PR</a></li>
-    </ul>
-    <h3>Reviews Received</h3>
-    <ul>
-      <li><a href="https://github.com/Software-Engineering-Year-3/Environmental-Data-Monitor/pull/20" target="_blank">Base UI Shell &amp; Login/Signup</a></li>
-      <li><a href="https://github.com/Software-Engineering-Year-3/Environmental-Data-Monitor/pull/31" target="_blank">Unit-Testing Setup in Core Library</a></li>
-      <li><a href="https://github.com/Software-Engineering-Year-3/Environmental-Data-Monitor/pull/??" target="_blank">Report-Sensors-Accounts Branch Init</a></li>
-    </ul>
-  </section>
+  <h3>UML Design</h3>
+  <ul>
+    <li>Component Diagram: <code>UserManagementPage ↔ MockUserStore ↔ Preferences</code></li>
+    <li>Class Diagram: <code>MockUser(Name, Email, Password, Role)</code></li>
+    <li>See diagrams: <a href="https://github.com/Software-Engineering-Year-3/Environmental-Data-Monitor/tree/Report-Sensors-Accounts/docs/diagrams" target="_blank">docs/diagrams</a></li>
+  </ul>
 
-  <section id="ai-tools">
-    <h2>Ethical &amp; Competent Use of AI Tools</h2>
-    <p>I consulted ChatGPT to research solutions for AVD, .NET SDK, environment variables, and test runner configuration issues. All final code, design decisions, and text are my own. AI was used solely as a troubleshooting guide and for documenting systematic workflows.</p>
-  </section>
+  <hr>
 
-  <section id="solo">
-    <h2>Solo Development &amp; Collaboration Context</h2>
-    <p>Initially a team effort, merge conflicts—particularly around the database layer—and limited in-person collaboration led me to continue independently on <code>Report-Sensors-Accounts</code>. I had already created the MAUI Shell “base-app” navigation used by the group. From that point on, every page, view model, service, UML diagram, and test scaffold was authored by me. I also assisted teammates with code reviews and merge conflict resolution.</p>
-  </section>
+  <h2>Peer Code Review</h2>
+  <p>During the Environmental Data Monitor project, rigorous code review was essential for upholding superior standards of code quality, consistency, and architectural integrity. Presented below are six exemplary reviews—three produced by me for colleagues, and three received on my own branch—to demonstrate our collaborative enhancement approach.</p>
 
-  <section id="conclusion">
-    <h2>Conclusion &amp; Reflection</h2>
-    <p>Working under real-world constraints—database conflicts, emulator issues, and team scheduling—I learned the importance of flexible branching strategies, mock-first design, and disciplined code review. By delivering three fully-functional user stories on my own branch, complete with UML artefacts and test scaffolds, I demonstrated end-to-end software engineering: from requirements and design to implementation, testing, and peer review. This experience reinforced that successful delivery depends not only on technical skill, but also on adaptability, clear communication, and rigorous process.</p>
-  </section>
+  <h3>Reviews I Conducted</h3>
+  <ol>
+    <li><strong>Firmware Upload & Unit Testing PR</strong><br>
+      <a href="https://github.com/Software-Engineering-Year-3/Environmental-Data-Monitor/pull/35" target="_blank">https://github.com/Software-Engineering-Year-3/Environmental-Data-Monitor/pull/35</a><br>
+      A colleague implemented SensorFirmwareUpdateViewModel, ISensorFirmwareService + ISensorService integration, file picker UI, status feedback, and NUnit+Moq tests. I praised the UI/logic separation and tests, and recommended adding cancellation tokens, try/catch around I/O, and negative test cases for unsupported formats.
+    </li>
+    <li><strong>Core Library Extraction & Multi-Targeting</strong><br>
+      <a href="https://github.com/Software-Engineering-Year-3/Environmental-Data-Monitor/pull/31" target="_blank">https://github.com/Software-Engineering-Year-3/Environmental-Data-Monitor/pull/31</a><br>
+      After extracting interfaces/models into ED_Monitor.Core and scaffolding NUnit, I suggested removing Class1.cs, multi-targeting for net6.0/net8.0, consistent RelayCommand naming, and adding XML comments.
+    </li>
+    <li><strong>Maintenance & Trend-Data Services PR</strong><br>
+      <a href="https://github.com/Software-Engineering-Year-3/Environmental-Data-Monitor/pull/36" target="_blank">https://github.com/Software-Engineering-Year-3/Environmental-Data-Monitor/pull/36</a><br>
+      Noted modular services (backup, trend, PDF), praised ILogger use, and advised splitting TrendDataService into <code>GetAirQualityTrends()</code>, <code>GetWaterQualityTrends()</code> for SRP.
+    </li>
+  </ol>
 
-  <footer>
-    <hr>
-    <p>© 2025 Abdullah Mohammed. All rights reserved.</p>
-  </footer>
+  <h3>Reviews Received</h3>
+  <ol>
+    <li><strong>Base UI Shell & Login/Signup</strong><br>
+      <a href="https://github.com/Software-Engineering-Year-3/Environmental-Data-Monitor/pull/20" target="_blank">https://github.com/Software-Engineering-Year-3/Environmental-Data-Monitor/pull/20</a><br>
+      Devan fixed DbContext.cs & Weather.cs; Distinguish renamed AirQualityData.cs; noemifavilli praised structure & naming.
+    </li>
+    <li><strong>Unit-Testing Setup in Core Library</strong><br>
+      Commended for core isolation & NUnit integration; I removed Class1.cs and multi-targeted the project to satisfy comments.
+    </li>
+    <li><strong>Report-Sensors-Accounts Branch Initialization</strong><br>
+      Devan praised the conflict-free base-app setup under SDK/emulator constraints and suggested documenting user stories in the branch README.
+    </li>
+  </ol>
+
+  <hr>
+
+  <h2>7. Ethical & Competent Use of AI Tools</h2>
+  <p>I consulted ChatGPT during development to investigate solutions for environment setup difficulties and to clarify best practices, while ensuring that all final code and decisions were entirely my own.</p>
+  <ul>
+    <li><strong>Environment Diagnostics:</strong> AI assistance helped me systematically troubleshoot Android AVD launch failures, .NET SDK/environment variable misconfigurations, and target framework discrepancies affecting NUnit tests. Although no single suggestion solved everything, the process organized my investigation and documented findings for future reference.</li>
+  </ul>
+
+  <h2>8. Solo Development & Collaboration Context</h2>
+  <p>Initially a group effort, the project encountered database integration issues and limited in-person collaboration. I branched off to <code>Report-Sensors-Accounts</code> to continue independently. Although I built the core MAUI Shell navigation for the team, database merge conflicts led me to work autonomously. Every page, view model, mock service, unit test scaffold, and UML artefact in this branch was authored solely by me. I still reviewed teammates’ PRs and helped resolve conflicts, but this branch represents a fully individual implementation of sensor mapping, issue reporting, and user management.</p>
+
+  <h2>9. Conclusion and Reflection</h2>
+  <p>I began by collaborating on MAUI Shell navigation, common models, and project architecture, learning team Git workflows, peer review, and conflict resolution. After persistent build issues with downstream database integrations, I shifted to solo development on <code>Report-Sensors-Accounts</code>. Working independently, I implemented my three user stories end-to-end—mock-first data services, comprehensive view models, and user-friendly pages—while respecting the original architecture. Overcoming AVD, SDK, and testing challenges honed my problem-solving and led to a pragmatic mock-first strategy, deferring unreliable persistence layers. UML documentation, unit-test scaffolding, and six thorough code reviews (three given, three received) ensured code quality and consistency. This experience taught me that success demands not only technical skill but also adaptability, clear communication, and process discipline—lessons I will carry forward.</p>
 
 </body>
 </html>
